@@ -73,7 +73,7 @@ namespace Exiled.CustomRoles.Commands
 
                 if (players.IsEmpty())
                 {
-                    if (arguments.Count > 0 || !Player.TryGet(sender, out Player player))
+                    if (arguments.Count > 0 || !Player.TryGet(sender, out Player? player))
                     {
                         response = $"Player not found: {identifier}";
                         return false;

@@ -223,7 +223,7 @@ namespace Exiled.CustomItems.API.Features
 
         private void RemoveSafely(ReferenceHub hub)
         {
-            if (!Player.TryGet(hub, out Player owner))
+            if (!Player.TryGet(hub, out Player? owner))
                 return;
 
             foreach (Item item in owner.Items)

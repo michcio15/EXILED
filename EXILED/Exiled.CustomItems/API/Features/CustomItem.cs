@@ -4,12 +4,12 @@
 // Licensed under the CC BY-SA 3.0 license.
 // </copyright>
 // -----------------------------------------------------------------------
-
 namespace Exiled.CustomItems.API.Features
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
 
@@ -150,7 +150,7 @@ namespace Exiled.CustomItems.API.Features
         /// <param name="id">The <see cref="CustomItem"/> ID to look for.</param>
         /// <param name="customItem">The found <see cref="CustomItem"/>, <see langword="null"/> if not registered.</param>
         /// <returns>Returns a value indicating whether the <see cref="CustomItem"/> was found.</returns>
-        public static bool TryGet(uint id, out CustomItem? customItem)
+        public static bool TryGet(uint id, [NotNullWhen(true)] out CustomItem? customItem)
         {
             customItem = Get(id);
 
@@ -163,7 +163,7 @@ namespace Exiled.CustomItems.API.Features
         /// <param name="name">The <see cref="CustomItem"/> name to look for.</param>
         /// <param name="customItem">The found <see cref="CustomItem"/>, <see langword="null"/> if not registered.</param>
         /// <returns>Returns a value indicating whether the <see cref="CustomItem"/> was found.</returns>
-        public static bool TryGet(string name, out CustomItem? customItem)
+        public static bool TryGet(string name, [NotNullWhen(true)] out CustomItem? customItem)
         {
             customItem = null;
             if (string.IsNullOrEmpty(name))
@@ -193,7 +193,7 @@ namespace Exiled.CustomItems.API.Features
         /// <param name="player">The <see cref="Player"/> to check.</param>
         /// <param name="customItem">The <see cref="CustomItem"/> in their hand.</param>
         /// <returns>Returns a value indicating whether the <see cref="Player"/> has a <see cref="CustomItem"/> in their hand or not.</returns>
-        public static bool TryGet(Player player, out CustomItem? customItem)
+        public static bool TryGet(Player player, [NotNullWhen(true)] out CustomItem? customItem)
         {
             customItem = null;
             if (player is null)
@@ -210,7 +210,7 @@ namespace Exiled.CustomItems.API.Features
         /// <param name="player">The <see cref="Player"/> to check.</param>
         /// <param name="customItems">The player's <see cref="IEnumerable{T}"/> of <see cref="CustomItem"/>.</param>
         /// <returns>Returns a value indicating whether the <see cref="Player"/> has a <see cref="CustomItem"/> in their hand or not.</returns>
-        public static bool TryGet(Player player, out IEnumerable<CustomItem>? customItems)
+        public static bool TryGet(Player player, [NotNullWhen(true)] out IEnumerable<CustomItem>? customItems)
         {
             customItems = Enumerable.Empty<CustomItem>();
             if (player is null)
@@ -218,7 +218,7 @@ namespace Exiled.CustomItems.API.Features
 
             customItems = Registered.Where(tempCustomItem => player.Items.Any(tempCustomItem.Check));
 
-            return customItems.Any();
+            return customItems != null && customItems.Any();
         }
 
         /// <summary>
@@ -227,7 +227,7 @@ namespace Exiled.CustomItems.API.Features
         /// <param name="item">The <see cref="Item"/> to check.</param>
         /// <param name="customItem">The <see cref="CustomItem"/> this item is.</param>
         /// <returns>True if the item is a custom item.</returns>
-        public static bool TryGet(Item item, out CustomItem? customItem)
+        public static bool TryGet(Item item, [NotNullWhen(true)] out CustomItem? customItem)
         {
             customItem = item == null ? null : Registered?.FirstOrDefault(tempCustomItem => tempCustomItem.TrackedSerials.Contains(item.Serial));
 
@@ -240,7 +240,7 @@ namespace Exiled.CustomItems.API.Features
         /// <param name="pickup">The <see cref="ItemPickupBase"/> to check.</param>
         /// <param name="customItem">The <see cref="CustomItem"/> this pickup is.</param>
         /// <returns>True if the pickup is a custom item.</returns>
-        public static bool TryGet(Pickup pickup, out CustomItem? customItem)
+        public static bool TryGet(Pickup pickup, [NotNullWhen(true)] out CustomItem? customItem)
         {
             customItem = Registered?.FirstOrDefault(tempCustomItem => tempCustomItem.TrackedSerials.Contains(pickup.Serial));
 
@@ -273,7 +273,7 @@ namespace Exiled.CustomItems.API.Features
         /// <param name="position">The <see cref="Vector3"/> location to spawn the item.</param>
         /// <param name="pickup">The <see cref="ItemPickupBase"/> instance of the <see cref="CustomItem"/>.</param>
         /// <returns>Returns a value indicating whether the <see cref="CustomItem"/> was spawned.</returns>
-        public static bool TrySpawn(string name, Vector3 position, out Pickup? pickup)
+        public static bool TrySpawn(string name, Vector3 position, [NotNullWhen(true)] out Pickup? pickup)
         {
             pickup = default;
 
@@ -282,7 +282,7 @@ namespace Exiled.CustomItems.API.Features
 
             pickup = item?.Spawn(position, null);
 
-            return true;
+            return pickup != null;
         }
 
         /// <summary>

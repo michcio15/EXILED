@@ -5,6 +5,8 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace Exiled.API.Features
 {
     using System;
@@ -1431,6 +1433,8 @@ namespace Exiled.API.Features
             }
         }
 
+#nullable enable
+
         /// <summary>
         /// Gets the <see cref="Player"/> from LabApi class.
         /// </summary>
@@ -1444,7 +1448,7 @@ namespace Exiled.API.Features
         /// <param name="sender">The <see cref="CommandSystem.ICommandSender"/>.</param>
         /// <param name="player">The player that matches the given <see cref="CommandSystem.ICommandSender"/>, or <see langword="null"/> if no player is found.</param>
         /// <returns>A boolean indicating whether a player was found.</returns>
-        public static bool TryGet(CommandSystem.ICommandSender sender, out Player player) => (player = Get(sender)) is not null;
+        public static bool TryGet(CommandSystem.ICommandSender sender, [NotNullWhen(true)] out Player? player) => (player = Get(sender)) is not null;
 
         /// <summary>
         /// Try-get a player given a <see cref="Footprinting.Footprint"/>.
@@ -1452,7 +1456,7 @@ namespace Exiled.API.Features
         /// <param name="footprint">The <see cref="Footprinting.Footprint"/>.</param>
         /// <param name="player">The player that matches the given <see cref="Footprinting.Footprint"/>, or <see langword="null"/> if no player is found.</param>
         /// <returns>A boolean indicating whether a player was found.</returns>
-        public static bool TryGet(Footprint footprint, out Player player) => (player = Get(footprint)) is not null;
+        public static bool TryGet(Footprint footprint, [NotNullWhen(true)] out Player? player) => (player = Get(footprint)) is not null;
 
         /// <summary>
         /// Try-get a player given a <see cref="CommandSender"/>.
@@ -1460,7 +1464,7 @@ namespace Exiled.API.Features
         /// <param name="sender">The <see cref="CommandSender"/>.</param>
         /// <param name="player">The player that matches the given <see cref="CommandSender"/>, or <see langword="null"/> if no player is found.</param>
         /// <returns>A boolean indicating whether a player was found.</returns>
-        public static bool TryGet(CommandSender sender, out Player player) => (player = Get(sender)) is not null;
+        public static bool TryGet(CommandSender sender, [NotNullWhen(true)] out Player? player) => (player = Get(sender)) is not null;
 
         /// <summary>
         /// Try-get a player given a <see cref="global::ReferenceHub"/>.
@@ -1468,7 +1472,7 @@ namespace Exiled.API.Features
         /// <param name="referenceHub">The <see cref="global::ReferenceHub"/>.</param>
         /// <param name="player">The player that matches the given <see cref="global::ReferenceHub"/>, or <see langword="null"/> if no player is found.</param>
         /// <returns>A boolean indicating whether a player was found.</returns>
-        public static bool TryGet(ReferenceHub referenceHub, out Player player) => (player = Get(referenceHub)) is not null;
+        public static bool TryGet(ReferenceHub referenceHub, [NotNullWhen(true)] out Player? player) => (player = Get(referenceHub)) is not null;
 
         /// <summary>
         /// Try-get a player given a network ID.
@@ -1476,7 +1480,7 @@ namespace Exiled.API.Features
         /// <param name="netId">The network ID.</param>
         /// <param name="player">The player that matches the given net ID, or <see langword="null"/> if no player is found.</param>
         /// <returns>A boolean indicating whether a player was found.</returns>
-        public static bool TryGet(uint netId, out Player player) => (player = Get(netId)) is not null;
+        public static bool TryGet(uint netId, [NotNullWhen(true)] out Player? player) => (player = Get(netId)) is not null;
 
         /// <summary>
         /// Try-get a player given a <see cref="Mirror.NetworkIdentity"/>.
@@ -1484,7 +1488,7 @@ namespace Exiled.API.Features
         /// <param name="netIdentity">The <see cref="Mirror.NetworkIdentity"/>.</param>
         /// <param name="player">The player that matches the given <see cref="Mirror.NetworkIdentity"/>, or <see langword="null"/> if no player is found.</param>
         /// <returns>A boolean indicating whether a player was found.</returns>
-        public static bool TryGet(NetworkIdentity netIdentity, out Player player) => (player = Get(netIdentity)) is not null;
+        public static bool TryGet(NetworkIdentity netIdentity, [NotNullWhen(true)] out Player? player) => (player = Get(netIdentity)) is not null;
 
         /// <summary>
         /// Try-get a player given a <see cref="NetworkConnection"/>.
@@ -1492,7 +1496,7 @@ namespace Exiled.API.Features
         /// <param name="conn">The <see cref="NetworkConnection"/>.</param>
         /// <param name="player">The player that matches the given <see cref="NetworkConnection"/>, or <see langword="null"/> if no player is found.</param>
         /// <returns>A boolean indicating whether a player was found.</returns>
-        public static bool TryGet(NetworkConnection conn, out Player player) => (player = Get(conn)) is not null;
+        public static bool TryGet(NetworkConnection conn, [NotNullWhen(true)] out Player? player) => (player = Get(conn)) is not null;
 
         /// <summary>
         /// Try-get a player given a <see cref="UnityEngine.GameObject"/>.
@@ -1500,7 +1504,7 @@ namespace Exiled.API.Features
         /// <param name="gameObject">The <see cref="UnityEngine.GameObject"/>.</param>
         /// <param name="player">The player that matches the given <see cref="UnityEngine.GameObject"/>, or <see langword="null"/> if no player is found.</param>
         /// <returns>A boolean indicating whether a player was found.</returns>
-        public static bool TryGet(GameObject gameObject, out Player player) => (player = Get(gameObject)) is not null;
+        public static bool TryGet(GameObject gameObject, [NotNullWhen(true)] out Player? player) => (player = Get(gameObject)) is not null;
 
         /// <summary>
         /// Try-get a player given an ID.
@@ -1508,7 +1512,7 @@ namespace Exiled.API.Features
         /// <param name="id">The user ID.</param>
         /// <param name="player">The player that matches the given ID, or <see langword="null"/> if no player is found.</param>
         /// <returns>A boolean indicating whether a player was found.</returns>
-        public static bool TryGet(int id, out Player player) => (player = Get(id)) is not null;
+        public static bool TryGet(int id, [NotNullWhen(true)] out Player? player) => (player = Get(id)) is not null;
 
         /// <summary>
         /// Try-get a player by identifier.
@@ -1516,7 +1520,7 @@ namespace Exiled.API.Features
         /// <param name="args">The player's nickname, ID, steamID64 or Discord ID.</param>
         /// <param name="player">The player found or <see langword="null"/> if not found.</param>
         /// <returns>A boolean indicating whether a player was found.</returns>
-        public static bool TryGet(string args, out Player player) => (player = Get(args)) is not null;
+        public static bool TryGet(string args, [NotNullWhen(true)] out Player? player) => (player = Get(args)) is not null;
 
         /// <summary>
         /// Try-get the <see cref="Player"/> from LabApi class.
@@ -1524,7 +1528,7 @@ namespace Exiled.API.Features
         /// <param name="apiPlayer">The <see cref="LabApi.Features.Wrappers.Player"/> class.</param>
         /// <param name="player">The player found or <see langword="null"/> if not found.</param>
         /// <returns>A boolean indicating whether a player was found.</returns>
-        public static bool TryGet(LabApi.Features.Wrappers.Player apiPlayer, out Player player) => (player = Get(apiPlayer)) is not null;
+        public static bool TryGet(LabApi.Features.Wrappers.Player apiPlayer, [NotNullWhen(true)] out Player? player) => (player = Get(apiPlayer)) is not null;
 
         /// <summary>
         /// Try-get player by <see cref="Collider"/>.
@@ -1532,7 +1536,8 @@ namespace Exiled.API.Features
         /// <param name="collider">The <see cref="Collider"/>.</param>
         /// <param name="player">The player found or <see langword="null"/> if not found.</param>
         /// <returns>A boolean indicating whether a player was found.</returns>
-        public static bool TryGet(Collider collider, out Player player) => (player = Get(collider)) is not null;
+        public static bool TryGet(Collider collider, [NotNullWhen(true)] out Player? player) => (player = Get(collider)) is not null;
+#nullable restore
 
         /// <summary>
         /// Gets an <see cref="IEnumerable{Player}"/> containing all players processed based on the arguments specified.
