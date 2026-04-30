@@ -104,7 +104,7 @@ namespace Exiled.API.Features.Toys
         /// <param name="visualizeBounds">Whether to visualize the bounds.</param>
         /// <param name="spawn">Whether the <see cref="Waypoint"/> should be initially spawned.</param>
         /// <returns>The new <see cref="Waypoint"/>.</returns>
-        public static Waypoint Create(Transform parent = null, Vector3? position = null, Quaternion? rotation = null, Vector3? scale = null, float priority = 0f, bool visualizeBounds = false, bool spawn = true)
+        public static Waypoint Create(Transform? parent = null, Vector3? position = null, Quaternion? rotation = null, Vector3? scale = null, float priority = 0f, bool visualizeBounds = false, bool spawn = true)
         {
             Waypoint toy = new(Object.Instantiate(Prefab, parent))
             {

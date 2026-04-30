@@ -33,7 +33,7 @@ namespace Exiled.API.Features.Items
         /// </summary>
         /// <param name="type">The <see cref="ItemType"/> of the marshmallow item.</param>
         /// <param name="owner">The owner of the marshmallow item. Leave <see langword="null"/> for no owner.</param>
-        internal Marshmallow(ItemType type, Player owner = null)
+        internal Marshmallow(ItemType type, Player? owner = null)
             : base((MarshmallowItem)(owner ?? Server.Host).Inventory.CreateItemInstance(new(type, 0), false))
         {
         }
@@ -91,7 +91,7 @@ namespace Exiled.API.Features.Items
         /// Makes the owner of this marshmallow evil. You CANNOT undo this without resetting the player.
         /// </summary>
         /// <param name="evilProcess">The <see cref="AhpStat.AhpProcess"/> of the new evil player.</param>
-        public void MakeEvil(AhpStat.AhpProcess evilProcess = null)
+        public void MakeEvil(AhpStat.AhpProcess? evilProcess = null)
         {
             if (Evil)
                 return;

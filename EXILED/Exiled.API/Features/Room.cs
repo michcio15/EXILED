@@ -107,7 +107,7 @@ namespace Exiled.API.Features
         /// <summary>
         /// Gets a <see cref="IEnumerable{T}"/> of <see cref="Player"/> in the <see cref="Room"/>.
         /// </summary>
-        public IEnumerable<Player> Players => Player.List.Where(player => player.IsAlive && player.CurrentRoom is not null && (player.CurrentRoom.Transform == Transform));
+        public IEnumerable<Player> Players => Player.List.Where(player => player.IsAlive && player.CurrentRoom != null && (player.CurrentRoom.Transform == Transform));
 
         /// <summary>
         /// Gets a <see cref="IReadOnlyCollection{T}"/> of <see cref="Window"/> in the <see cref="Room"/>.
@@ -195,7 +195,7 @@ namespace Exiled.API.Features
         /// <summary>
         /// Gets the room's FlickerableLightController.
         /// </summary>
-        public RoomLightController RoomLightController => RoomLightControllers.FirstOrDefault();
+        public RoomLightController? RoomLightController => RoomLightControllers.FirstOrDefault();
 
         /// <summary>
         /// Gets a <see cref="List{T}"/> containing all known <see cref="Window"/>s in that <see cref="Room"/>.
@@ -232,15 +232,14 @@ namespace Exiled.API.Features
         /// </summary>
         /// <param name="roomType">The <see cref="RoomType"/> to search for.</param>
         /// <returns>The <see cref="Room"/> with the given <see cref="RoomType"/> or <see langword="null"/> if not found.</returns>
-        public static Room Get(RoomType roomType) => Get(room => room.Type == roomType).FirstOrDefault();
+        public static Room? Get(RoomType roomType) => Get(room => room.Type == roomType).FirstOrDefault();
 
         /// <summary>
         /// Gets a <see cref="Room"/> from a given <see cref="Identifier"/>.
         /// </summary>
         /// <param name="roomIdentifier">The <see cref="Identifier"/> to search with.</param>
         /// <returns>The <see cref="Room"/> of the given identified, if any. Can be <see langword="null"/>.</returns>
-        public static Room Get(RoomIdentifier roomIdentifier) => roomIdentifier == null ? null :
-            RoomIdentifierToRoom.TryGetValue(roomIdentifier, out Room room) ? room : null;
+        public static Room? Get(RoomIdentifier roomIdentifier) => roomIdentifier == null ? null : RoomIdentifierToRoom.GetValueOrDefault(roomIdentifier);
 
         /// <summary>
         /// Gets a <see cref="Room"/> from a given <see cref="RoomIdentifier"/>.
@@ -254,14 +253,14 @@ namespace Exiled.API.Features
         /// </summary>
         /// <param name="position">The <see cref="Vector3"/> to search for.</param>
         /// <returns>The <see cref="Room"/> with the given <see cref="Vector3"/> or <see langword="null"/> if not found.</returns>
-        public static Room Get(Vector3 position) => position.TryGetRoom(out RoomIdentifier room) ? Get(room) : null;
+        public static Room? Get(Vector3 position) => position.TryGetRoom(out RoomIdentifier room) ? Get(room) : null;
 
         /// <summary>
         /// Gets a <see cref="Room"/> given the specified <see cref="RelativePosition"/>.
         /// </summary>
         /// <param name="position">The <see cref="RelativePosition"/> to search for.</param>
         /// <returns>The <see cref="Room"/> with the given <see cref="RelativePosition"/> or <see langword="null"/> if not found.</returns>
-        public static Room Get(RelativePosition position) => Get(position.Position);
+        public static Room? Get(RelativePosition position) => Get(position.Position);
 
         /// <summary>
         /// Gets a <see cref="IEnumerable{T}"/> of <see cref="Room"/> given the specified <see cref="ZoneType"/>.
@@ -283,12 +282,12 @@ namespace Exiled.API.Features
         /// <param name="objectInRoom">The <see cref="GameObject"/> inside the room.</param>
         /// <returns>The <see cref="Room"/> that the <see cref="GameObject"/> is located inside. Can be <see langword="null"/>.</returns>
         /// <seealso cref="Get(Vector3)"/>
-        public static Room FindParentRoom(GameObject objectInRoom)
+        public static Room? FindParentRoom(GameObject objectInRoom)
         {
             if (objectInRoom == null)
-                return default;
+                return null;
 
-            Room room = null;
+            Room? room = null;
 
             const string playerTag = "Player";
 
@@ -306,11 +305,13 @@ namespace Exiled.API.Features
                 // SCP-079 position is constant,
                 // let it be 'Outside' instead
                 if (ply.Role.Is(out Roles.Scp079Role role))
+                {
                     room = FindParentRoom(role.Camera.GameObject);
+                }
             }
 
             // Finally, try for objects that aren't children, like players and pickups.
-            return room ?? Get(objectInRoom.transform.position) ?? default;
+            return room ? room : Get(objectInRoom.transform.position) ? Get(objectInRoom.transform.position) : null;
         }
 
         /// <summary>
@@ -372,7 +373,9 @@ namespace Exiled.API.Features
             }
 
             if (duration < 0)
+            {
                 return;
+            }
 
             Timing.CallDelayed(duration, UnlockAll);
         }

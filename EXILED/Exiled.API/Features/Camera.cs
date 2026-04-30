@@ -193,7 +193,7 @@ namespace Exiled.API.Features
         /// <summary>
         /// Gets the base <see cref="Scp079Camera"/>.
         /// </summary>
-        public Scp079Camera Base { get; }
+        public Scp079Camera Base { get; } = null!;
 
         /// <summary>
         /// Gets the camera's <see cref="UnityEngine.GameObject"/>.
@@ -218,7 +218,7 @@ namespace Exiled.API.Features
         /// <summary>
         /// Gets the camera's <see cref="Room"/>.
         /// </summary>
-        public Room Room => field ??= Room.Get(Base.Room);
+        public Room? Room => field = field ? field : Room.Get(Base.Room);
 
         /// <summary>
         /// Gets the camera's <see cref="ZoneType"/>.
@@ -270,21 +270,21 @@ namespace Exiled.API.Features
         /// </summary>
         /// <param name="camera079">The base <see cref="Scp079Camera"/>.</param>
         /// <returns>A <see cref="Camera"/> or <see langword="null"/> if not found.</returns>
-        public static Camera Get(Scp079Camera camera079) => camera079 != null ? Camera079ToCamera.TryGetValue(camera079, out Camera camera) ? camera : new(camera079) : null;
+        public static Camera? Get(Scp079Camera camera079) => camera079 != null ? Camera079ToCamera.TryGetValue(camera079, out Camera camera) ? camera : new(camera079) : null;
 
         /// <summary>
         /// Gets a <see cref="Camera"/> given the specified <paramref name="cameraId"/>.
         /// </summary>
         /// <param name="cameraId">The camera id to be searched for.</param>
         /// <returns>The <see cref="Camera"/> with the given id or <see langword="null"/> if not found.</returns>
-        public static Camera Get(uint cameraId) => List.FirstOrDefault(camera => camera.Id == cameraId);
+        public static Camera? Get(uint cameraId) => List.FirstOrDefault(camera => camera.Id == cameraId);
 
         /// <summary>
         /// Gets a <see cref="Camera"/> given the specified <paramref name="cameraName"/>.
         /// </summary>
         /// <param name="cameraName">The name of the camera.</param>
         /// <returns>The <see cref="Camera"/> or <see langword="null"/> if not found.</returns>
-        public static Camera Get(string cameraName) => List.FirstOrDefault(camera => camera.Name == cameraName);
+        public static Camera? Get(string cameraName) => List.FirstOrDefault(camera => camera.Name == cameraName);
 
         /// <summary>
         /// Gets a <see cref="Camera"/> given the specified <paramref name="cameraType"/>.

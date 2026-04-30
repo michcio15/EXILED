@@ -5,6 +5,8 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace Exiled.API.Features
 {
     using System;
@@ -484,7 +486,7 @@ namespace Exiled.API.Features
         /// This value will be <see langword="null"/> if the player is not cuffed. Setting this value to <see langword="null"/> will uncuff the player if they are cuffed.
         /// </para>
         /// </summary>
-        public Player Cuffer
+        public Player? Cuffer
         {
             get => Get(DisarmedPlayers.Entries.FirstOrDefault(entry => entry.DisarmedPlayer == NetworkIdentity.netId).Disarmer);
             set
@@ -613,13 +615,7 @@ namespace Exiled.API.Features
         /// </summary>
         public ScpSpawnPreferences.SpawnPreferences ScpPreferences
         {
-            get
-            {
-                if (ScpSpawnPreferences.Preferences.TryGetValue(Connection.connectionId, out ScpSpawnPreferences.SpawnPreferences value))
-                    return value;
-
-                return default;
-            }
+            get => ScpSpawnPreferences.Preferences.GetValueOrDefault(Connection.connectionId);
             set => ScpSpawnPreferences.Preferences[Connection.connectionId] = value;
         }
 
@@ -986,7 +982,7 @@ namespace Exiled.API.Features
         /// Gets or sets the item in the player's hand. Value will be <see langword="null"/> if the player is not holding anything.
         /// </summary>
         /// <seealso cref="DropHeldItem()"/>
-        public Item CurrentItem
+        public Item? CurrentItem
         {
             get => Item.Get(Inventory.CurInstance);
             set
@@ -1010,7 +1006,7 @@ namespace Exiled.API.Features
         /// <summary>
         /// Gets the armor that the player is currently wearing. Value will be <see langword="null"/> if the player is not wearing any armor.
         /// </summary>
-        public Armor CurrentArmor => Inventory.TryGetBodyArmor(out BodyArmor armor) ? Item.Get<Armor>(armor) : null;
+        public Armor? CurrentArmor => Inventory.TryGetBodyArmor(out BodyArmor armor) ? Item.Get<Armor>(armor) : null;
 
         /// <summary>
         /// Gets the <see cref="StaminaStat"/> class.
@@ -1035,27 +1031,27 @@ namespace Exiled.API.Features
         /// <summary>
         /// Gets or sets the player's group name.
         /// </summary>
-        public string GroupName
+        public string? GroupName
         {
-            get => ServerStatic.PermissionsHandler.Members.TryGetValue(UserId, out string groupName) ? groupName : null;
+            get => ServerStatic.PermissionsHandler.Members.GetValueOrDefault(UserId);
             set => ServerStatic.PermissionsHandler.Members[UserId] = value;
         }
 
         /// <summary>
         /// Gets the current <see cref="Room"/> the player is in.
         /// </summary>
-        public Room CurrentRoom => Room.FindParentRoom(GameObject);
+        public Room? CurrentRoom => Room.FindParentRoom(GameObject);
 
         /// <summary>
         /// Gets the current zone the player is in.
         /// </summary>
-        public ZoneType Zone => CurrentRoom?.Zone ?? ZoneType.Unspecified;
+        public ZoneType Zone => CurrentRoom != null ? CurrentRoom.Zone : ZoneType.Unspecified;
 
         /// <summary>
         /// Gets the current Level the player is in.
         /// </summary>
         /// <remarks>Will return null if CurrentRoom is not a <see cref="MultiLevelRoomIdentifier"/>.</remarks>
-        public RoomLevelName? LevelName => CurrentRoom?.LevelName;
+        public RoomLevelName? LevelName => CurrentRoom != null ? CurrentRoom.LevelName : null;
 
         /// <summary>
         /// Gets the current <see cref="Features.Lift"/> the player is in. Can be <see langword="null"/>.
@@ -1241,7 +1237,7 @@ namespace Exiled.API.Features
         /// </summary>
         /// <param name="player">The LabApi player.</param>
         /// <returns>EXILED player.</returns>
-        public static implicit operator LabApi.Features.Wrappers.Player(Player player) => LabApi.Features.Wrappers.Player.Get(player?.ReferenceHub);
+        public static implicit operator LabApi.Features.Wrappers.Player(Player player) => LabApi.Features.Wrappers.Player.Get(player.ReferenceHub);
 
         /// <summary>
         /// Gets a <see cref="Player"/> <see cref="IEnumerable{T}"/> filtered by side. Can be empty.
@@ -1276,28 +1272,28 @@ namespace Exiled.API.Features
         /// </summary>
         /// <param name="sender">The command sender.</param>
         /// <returns>A <see cref="Player"/> or <see langword="null"/> if not found.</returns>
-        public static Player Get(CommandSystem.ICommandSender sender) => Get(sender as CommandSender);
+        public static Player? Get(CommandSystem.ICommandSender sender) => Get(sender as CommandSender);
 
         /// <summary>
         /// Gets the <see cref="Player"/> belonging to the <see cref="Footprinting.Footprint"/>, if any.
         /// </summary>
         /// <param name="footprint">The Footprint.</param>
         /// <returns>A <see cref="Player"/> or <see langword="null"/> if not found.</returns>
-        public static Player Get(Footprint footprint) => Get(footprint.Hub);
+        public static Player? Get(Footprint footprint) => Get(referenceHub: footprint.Hub);
 
         /// <summary>
         /// Gets the <see cref="Player"/> belonging to the <see cref="CommandSender"/>, if any.
         /// </summary>
         /// <param name="sender">The command sender.</param>
         /// <returns>A <see cref="Player"/> or <see langword="null"/> if not found.</returns>
-        public static Player Get(CommandSender sender) => Get(sender.SenderId);
+        public static Player? Get(CommandSender sender) => Get(sender.SenderId);
 
         /// <summary>
         /// Gets the <see cref="Player"/> belonging to the <see cref="global::ReferenceHub"/>, if any.
         /// </summary>
         /// <param name="referenceHub">The player's <see cref="global::ReferenceHub"/>.</param>
         /// <returns>A <see cref="Player"/> or <see langword="null"/> if not found.</returns>
-        public static Player Get(ReferenceHub referenceHub)
+        public static Player? Get(ReferenceHub referenceHub)
         {
             try
             {
@@ -1314,35 +1310,35 @@ namespace Exiled.API.Features
         /// </summary>
         /// <param name="collider"><see cref="Collider"/>.</param>
         /// <returns>A <see cref="Player"/> or <see langword="null"/> if not found.</returns>
-        public static Player Get(Collider collider) => Get(collider.transform.root.gameObject);
+        public static Player? Get(Collider collider) => Get(collider.transform.root.gameObject);
 
         /// <summary>
         /// Gets the <see cref="Player"/> belonging to a specific netId, if any.
         /// </summary>
         /// <param name="netId">The player's <see cref="NetworkIdentity.netId"/>.</param>
         /// <returns>The <see cref="Player"/> owning the netId, or <see langword="null"/> if not found.</returns>
-        public static Player Get(uint netId) => ReferenceHub.TryGetHubNetID(netId, out ReferenceHub hub) ? Get(hub) : null;
+        public static Player? Get(uint netId) => ReferenceHub.TryGetHubNetID(netId, out ReferenceHub hub) ? Get(hub) : null;
 
         /// <summary>
         /// Gets the <see cref="Player"/> belonging to a specific <see cref="Mirror.NetworkIdentity"/>, if any.
         /// </summary>
         /// <param name="netIdentity">The player's <see cref="Mirror.NetworkIdentity"/>.</param>
         /// <returns>The <see cref="Player"/> owning the <see cref="Mirror.NetworkIdentity"/>, or <see langword="null"/> if not found.</returns>
-        public static Player Get(NetworkIdentity netIdentity) => Get(netIdentity.netId);
+        public static Player? Get(NetworkIdentity netIdentity) => Get(netIdentity.netId);
 
         /// <summary>
         /// Gets the <see cref="Player"/> belonging to a specific <see cref="NetworkConnection"/>, if any.
         /// </summary>
         /// <param name="conn">The player's <see cref="NetworkConnection"/>.</param>
         /// <returns>The <see cref="Player"/> owning the <see cref="NetworkConnection"/>, or <see langword="null"/> if not found.</returns>
-        public static Player Get(NetworkConnection conn) => Get(conn.identity);
+        public static Player? Get(NetworkConnection conn) => Get(conn.identity);
 
         /// <summary>
         /// Gets the <see cref="Player"/> belonging to the <see cref="UnityEngine.GameObject"/>, if any.
         /// </summary>
         /// <param name="gameObject">The player's <see cref="UnityEngine.GameObject"/>.</param>
         /// <returns>A <see cref="Player"/> or <see langword="null"/> if not found.</returns>
-        public static Player Get(GameObject gameObject)
+        public static Player? Get(GameObject gameObject)
         {
             if (gameObject == null)
                 return null;
@@ -1364,14 +1360,14 @@ namespace Exiled.API.Features
         /// </summary>
         /// <param name="id">The player id.</param>
         /// <returns>Returns the player found or <see langword="null"/> if not found.</returns>
-        public static Player Get(int id) => ReferenceHub.TryGetHub(id, out ReferenceHub referenceHub) ? Get(referenceHub) : null;
+        public static Player? Get(int id) => ReferenceHub.TryGetHub(id, out ReferenceHub referenceHub) ? Get(referenceHub) : null;
 
         /// <summary>
         /// Gets the <see cref="Player"/> by identifier.
         /// </summary>
         /// <param name="args">The player's nickname, ID, steamID64 or Discord ID.</param>
         /// <returns>Returns the player found or <see langword="null"/> if not found.</returns>
-        public static Player Get(string args)
+        public static Player? Get(string args)
         {
             try
             {
@@ -1436,7 +1432,7 @@ namespace Exiled.API.Features
         /// </summary>
         /// <param name="apiPlayer">The <see cref="LabApi.Features.Wrappers.Player"/> class.</param>
         /// <returns>A <see cref="Player"/> or <see langword="null"/> if not found.</returns>
-        public static Player Get(LabApi.Features.Wrappers.Player apiPlayer) => Get(apiPlayer.ReferenceHub);
+        public static Player? Get(LabApi.Features.Wrappers.Player apiPlayer) => Get(apiPlayer.ReferenceHub);
 
         /// <summary>
         /// Try-get a player given a <see cref="CommandSystem.ICommandSender"/>.
@@ -1444,7 +1440,7 @@ namespace Exiled.API.Features
         /// <param name="sender">The <see cref="CommandSystem.ICommandSender"/>.</param>
         /// <param name="player">The player that matches the given <see cref="CommandSystem.ICommandSender"/>, or <see langword="null"/> if no player is found.</param>
         /// <returns>A boolean indicating whether a player was found.</returns>
-        public static bool TryGet(CommandSystem.ICommandSender sender, out Player player) => (player = Get(sender)) is not null;
+        public static bool TryGet(CommandSystem.ICommandSender sender, [NotNullWhen(true)] out Player? player) => (player = Get(sender)) is not null;
 
         /// <summary>
         /// Try-get a player given a <see cref="Footprinting.Footprint"/>.
@@ -1452,7 +1448,7 @@ namespace Exiled.API.Features
         /// <param name="footprint">The <see cref="Footprinting.Footprint"/>.</param>
         /// <param name="player">The player that matches the given <see cref="Footprinting.Footprint"/>, or <see langword="null"/> if no player is found.</param>
         /// <returns>A boolean indicating whether a player was found.</returns>
-        public static bool TryGet(Footprint footprint, out Player player) => (player = Get(footprint)) is not null;
+        public static bool TryGet(Footprint footprint, [NotNullWhen(true)] out Player? player) => (player = Get(footprint)) is not null;
 
         /// <summary>
         /// Try-get a player given a <see cref="CommandSender"/>.
@@ -1460,7 +1456,7 @@ namespace Exiled.API.Features
         /// <param name="sender">The <see cref="CommandSender"/>.</param>
         /// <param name="player">The player that matches the given <see cref="CommandSender"/>, or <see langword="null"/> if no player is found.</param>
         /// <returns>A boolean indicating whether a player was found.</returns>
-        public static bool TryGet(CommandSender sender, out Player player) => (player = Get(sender)) is not null;
+        public static bool TryGet(CommandSender sender, [NotNullWhen(true)] out Player? player) => (player = Get(sender)) is not null;
 
         /// <summary>
         /// Try-get a player given a <see cref="global::ReferenceHub"/>.
@@ -1468,7 +1464,7 @@ namespace Exiled.API.Features
         /// <param name="referenceHub">The <see cref="global::ReferenceHub"/>.</param>
         /// <param name="player">The player that matches the given <see cref="global::ReferenceHub"/>, or <see langword="null"/> if no player is found.</param>
         /// <returns>A boolean indicating whether a player was found.</returns>
-        public static bool TryGet(ReferenceHub referenceHub, out Player player) => (player = Get(referenceHub)) is not null;
+        public static bool TryGet(ReferenceHub referenceHub, [NotNullWhen(true)] out Player? player) => (player = Get(referenceHub)) is not null;
 
         /// <summary>
         /// Try-get a player given a network ID.
@@ -1476,7 +1472,7 @@ namespace Exiled.API.Features
         /// <param name="netId">The network ID.</param>
         /// <param name="player">The player that matches the given net ID, or <see langword="null"/> if no player is found.</param>
         /// <returns>A boolean indicating whether a player was found.</returns>
-        public static bool TryGet(uint netId, out Player player) => (player = Get(netId)) is not null;
+        public static bool TryGet(uint netId, [NotNullWhen(true)] out Player? player) => (player = Get(netId)) is not null;
 
         /// <summary>
         /// Try-get a player given a <see cref="Mirror.NetworkIdentity"/>.
@@ -1484,7 +1480,7 @@ namespace Exiled.API.Features
         /// <param name="netIdentity">The <see cref="Mirror.NetworkIdentity"/>.</param>
         /// <param name="player">The player that matches the given <see cref="Mirror.NetworkIdentity"/>, or <see langword="null"/> if no player is found.</param>
         /// <returns>A boolean indicating whether a player was found.</returns>
-        public static bool TryGet(NetworkIdentity netIdentity, out Player player) => (player = Get(netIdentity)) is not null;
+        public static bool TryGet(NetworkIdentity netIdentity, [NotNullWhen(true)] out Player? player) => (player = Get(netIdentity)) is not null;
 
         /// <summary>
         /// Try-get a player given a <see cref="NetworkConnection"/>.
@@ -1492,7 +1488,7 @@ namespace Exiled.API.Features
         /// <param name="conn">The <see cref="NetworkConnection"/>.</param>
         /// <param name="player">The player that matches the given <see cref="NetworkConnection"/>, or <see langword="null"/> if no player is found.</param>
         /// <returns>A boolean indicating whether a player was found.</returns>
-        public static bool TryGet(NetworkConnection conn, out Player player) => (player = Get(conn)) is not null;
+        public static bool TryGet(NetworkConnection conn, [NotNullWhen(true)] out Player? player) => (player = Get(conn)) is not null;
 
         /// <summary>
         /// Try-get a player given a <see cref="UnityEngine.GameObject"/>.
@@ -1500,7 +1496,7 @@ namespace Exiled.API.Features
         /// <param name="gameObject">The <see cref="UnityEngine.GameObject"/>.</param>
         /// <param name="player">The player that matches the given <see cref="UnityEngine.GameObject"/>, or <see langword="null"/> if no player is found.</param>
         /// <returns>A boolean indicating whether a player was found.</returns>
-        public static bool TryGet(GameObject gameObject, out Player player) => (player = Get(gameObject)) is not null;
+        public static bool TryGet(GameObject gameObject, [NotNullWhen(true)] out Player? player) => (player = Get(gameObject)) is not null;
 
         /// <summary>
         /// Try-get a player given an ID.
@@ -1508,7 +1504,7 @@ namespace Exiled.API.Features
         /// <param name="id">The user ID.</param>
         /// <param name="player">The player that matches the given ID, or <see langword="null"/> if no player is found.</param>
         /// <returns>A boolean indicating whether a player was found.</returns>
-        public static bool TryGet(int id, out Player player) => (player = Get(id)) is not null;
+        public static bool TryGet(int id, [NotNullWhen(true)] out Player? player) => (player = Get(id)) is not null;
 
         /// <summary>
         /// Try-get a player by identifier.
@@ -1516,7 +1512,7 @@ namespace Exiled.API.Features
         /// <param name="args">The player's nickname, ID, steamID64 or Discord ID.</param>
         /// <param name="player">The player found or <see langword="null"/> if not found.</param>
         /// <returns>A boolean indicating whether a player was found.</returns>
-        public static bool TryGet(string args, out Player player) => (player = Get(args)) is not null;
+        public static bool TryGet(string args, [NotNullWhen(true)] out Player? player) => (player = Get(args)) is not null;
 
         /// <summary>
         /// Try-get the <see cref="Player"/> from LabApi class.
@@ -1524,7 +1520,7 @@ namespace Exiled.API.Features
         /// <param name="apiPlayer">The <see cref="LabApi.Features.Wrappers.Player"/> class.</param>
         /// <param name="player">The player found or <see langword="null"/> if not found.</param>
         /// <returns>A boolean indicating whether a player was found.</returns>
-        public static bool TryGet(LabApi.Features.Wrappers.Player apiPlayer, out Player player) => (player = Get(apiPlayer)) is not null;
+        public static bool TryGet(LabApi.Features.Wrappers.Player apiPlayer, [NotNullWhen(true)] out Player? player) => (player = Get(apiPlayer)) is not null;
 
         /// <summary>
         /// Try-get player by <see cref="Collider"/>.
@@ -1532,7 +1528,7 @@ namespace Exiled.API.Features
         /// <param name="collider">The <see cref="Collider"/>.</param>
         /// <param name="player">The player found or <see langword="null"/> if not found.</param>
         /// <returns>A boolean indicating whether a player was found.</returns>
-        public static bool TryGet(Collider collider, out Player player) => (player = Get(collider)) is not null;
+        public static bool TryGet(Collider collider, [NotNullWhen(true)] out Player? player) => (player = Get(collider)) is not null;
 
         /// <summary>
         /// Gets an <see cref="IEnumerable{Player}"/> containing all players processed based on the arguments specified.
@@ -1705,9 +1701,8 @@ namespace Exiled.API.Features
         {
             if (CustomRoleFriendlyFireMultiplier.TryGetValue(roleTypeId, out Dictionary<RoleTypeId, float> currentPairedData))
             {
-                if (!currentPairedData.ContainsKey(roleToAdd))
+                if (currentPairedData.TryAdd(roleToAdd, ffMult))
                 {
-                    currentPairedData.Add(roleToAdd, ffMult);
                     return;
                 }
 
@@ -1912,7 +1907,7 @@ namespace Exiled.API.Features
         /// <param name="serial">The unique identifier of the item.</param>
         /// <param name="item">The <see cref="Item"/> found. <see langword="null"/> if it doesn't exist.</param>
         /// <returns><see langword="true"/> if the item is found, <see langword="false"/> otherwise.</returns>
-        public bool TryGetItem(ushort serial, out Item item)
+        public bool TryGetItem(ushort serial, [NotNullWhen(true)] out Item? item)
         {
             item = Inventory.UserInventory.Items.TryGetValue(serial, out ItemBase itemBase) ? Item.Get(itemBase) : null;
 
@@ -2177,7 +2172,7 @@ namespace Exiled.API.Features
         /// </summary>
         /// <param name="destroy">Whether to destroy the item.</param>
         /// <returns>Returns a value indicating whether the <see cref="ItemBase"/> was removed.</returns>
-        public bool RemoveHeldItem(bool destroy = true) => RemoveItem(CurrentItem, destroy);
+        public bool RemoveHeldItem(bool destroy = true) => CurrentItem != null && RemoveItem(CurrentItem, destroy);
 
         /// <summary>
         /// Sends a console message to the player's console.
@@ -2190,7 +2185,7 @@ namespace Exiled.API.Features
         /// Disconnects the player.
         /// </summary>
         /// <param name="reason">The disconnection reason.</param>
-        public void Disconnect(string reason = null) =>
+        public void Disconnect(string? reason = null) =>
             ServerConsole.Disconnect(GameObject, string.IsNullOrEmpty(reason) ? string.Empty : reason);
 
         /// <summary>
@@ -2257,7 +2252,7 @@ namespace Exiled.API.Features
         /// <param name="amount">The <see langword="float"/> amount of damage to deal.</param>
         /// <param name="damageType">The <see cref="DamageType"/> of the damage dealt.</param>
         /// <param name="cassieAnnouncement">The <see cref="CassieAnnouncement"/> cassie announcement to make if the damage kills the player.</param>
-        public void Hurt(Player attacker, float amount, DamageType damageType = DamageType.Unknown, CassieAnnouncement cassieAnnouncement = null) =>
+        public void Hurt(Player attacker, float amount, DamageType damageType = DamageType.Unknown, CassieAnnouncement? cassieAnnouncement = null) =>
             Hurt(new GenericDamageHandler(this, attacker, amount, damageType, cassieAnnouncement));
 
         /// <summary>
@@ -2398,7 +2393,7 @@ namespace Exiled.API.Features
         /// </summary>
         /// <param name="attacker">The <see cref="Player"/> attacking player.</param>
         /// <param name="cassieAnnouncement">The cassie announcement to make upon death.</param>
-        public void Vaporize(Player attacker = null, string cassieAnnouncement = "")
+        public void Vaporize(Player? attacker = null, string cassieAnnouncement = "")
         {
             if ((Role.Side != Side.Scp) && !string.IsNullOrEmpty(cassieAnnouncement))
                 Cassie.Message(cassieAnnouncement);
@@ -2413,7 +2408,7 @@ namespace Exiled.API.Features
         /// <param name="duration">The ban duration, in seconds.</param>
         /// <param name="reason">The ban reason.</param>
         /// <param name="issuer">The ban issuer.</param>
-        public void Ban(int duration, string reason, Player issuer = null)
+        public void Ban(int duration, string reason, Player? issuer = null)
             => BanPlayer.BanUser(ReferenceHub, issuer is null || issuer.ReferenceHub == null ? Server.Host.ReferenceHub : issuer.ReferenceHub, reason, duration);
 
         /// <summary>
@@ -2422,14 +2417,14 @@ namespace Exiled.API.Features
         /// <param name="duration">The length of time to ban.</param>
         /// <param name="reason">The ban reason.</param>
         /// <param name="issuer">The ban issuer.</param>
-        public void Ban(TimeSpan duration, string reason, Player issuer = null) => Ban((int)duration.TotalSeconds, reason, issuer);
+        public void Ban(TimeSpan duration, string reason, Player? issuer = null) => Ban((int)duration.TotalSeconds, reason, issuer);
 
         /// <summary>
         /// Kicks the player.
         /// </summary>
         /// <param name="reason">The kick reason.</param>
         /// <param name="issuer">The kick issuer.</param>
-        public void Kick(string reason, Player issuer = null) => Ban(0, reason, issuer);
+        public void Kick(string reason, Player? issuer = null) => Ban(0, reason, issuer);
 
         /// <summary>
         /// Persistently mutes the player. For temporary mutes, see <see cref="IsMuted"/> and <see cref="IsIntercomMuted"/>.
@@ -2464,7 +2459,7 @@ namespace Exiled.API.Features
         /// <param name="message">The message to be sent.</param>
         /// <param name="success">Indicates whether the message should be highlighted as success.</param>
         /// <param name="pluginName">The plugin name.</param>
-        public void RemoteAdminMessage(string message, bool success = true, string pluginName = null)
+        public void RemoteAdminMessage(string message, bool success = true, string? pluginName = null)
         {
             Sender.RaReply((pluginName ?? Assembly.GetCallingAssembly().GetName().Name) + "#" + message, success, true, string.Empty);
         }
@@ -2946,7 +2941,7 @@ namespace Exiled.API.Features
         /// <param name="item">The <see cref="Item"/> object of the item.</param>
         /// <param name="addReason">The reason the item was added.</param>
         /// <returns>The <see cref="Item"/> that was added.</returns>
-        public Item AddItem(ItemBase itemBase, Item item = null, ItemAddReason addReason = ItemAddReason.AdminCommand)
+        public Item AddItem(ItemBase itemBase, Item? item = null, ItemAddReason addReason = ItemAddReason.AdminCommand)
         {
             try
             {
@@ -4020,7 +4015,7 @@ namespace Exiled.API.Features
         /// </summary>
         /// <param name="projectileType">The projectile that will create the explosion.</param>
         /// <param name="attacker">The Player that will causing the explosion.</param>
-        public void Explode(ProjectileType projectileType, Player attacker = null) => Map.Explode(Position, projectileType, attacker);
+        public void Explode(ProjectileType projectileType, Player? attacker = null) => Map.Explode(Position, projectileType, attacker);
 
         /// <summary>
         /// Spawn projectile effect on the player.

@@ -32,7 +32,7 @@ namespace Exiled.API.Features.Items
         /// </summary>
         /// <param name="type">The <see cref="ItemType"/> of the keycard.</param>
         /// <param name="owner">The owner of the grenade. Leave <see langword="null"/> for no owner.</param>
-        internal Keycard(ItemType type, Player owner = null)
+        internal Keycard(ItemType type, Player? owner = null)
             : this((KeycardItem)(owner ?? Server.Host).Inventory.CreateItemInstance(new(type, 0), false))
         {
         }

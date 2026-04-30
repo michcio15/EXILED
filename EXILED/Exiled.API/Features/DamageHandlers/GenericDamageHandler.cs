@@ -61,7 +61,7 @@ namespace Exiled.API.Features.DamageHandlers
         /// <param name="cassieAnnouncement"> Custom cassie announcment. </param>
         /// <param name="damageText"> Text to provide to player death screen. </param>
         /// <param name="overrideCassieForAllRole">Whether to play Cassie for non-SCPs as well.</param>
-        public GenericDamageHandler(Player player, Player attacker, float damage, DamageType damageType, DamageHandlerBase.CassieAnnouncement cassieAnnouncement, string damageText = null, bool overrideCassieForAllRole = false)
+        public GenericDamageHandler(Player player, Player attacker, float damage, DamageType damageType, DamageHandlerBase.CassieAnnouncement cassieAnnouncement, string? damageText = null, bool overrideCassieForAllRole = false)
             : base(DamageTextDefault)
         {
             this.player = player;

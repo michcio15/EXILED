@@ -135,7 +135,7 @@ namespace Exiled.API.Features.Toys
         /// <param name="zoomConstraint">The zoom limits. Leave null to use prefab default.</param>
         /// <param name="spawn">Whether the camera should be initially spawned.</param>
         /// <returns>The new <see cref="CameraToy"/>.</returns>
-        public static CameraToy Create(Transform parent = null, CameraType type = CameraType.EzArmCameraToy, Vector3? position = null, Quaternion? rotation = null, Vector3? scale = null, string name = "New Camera", Room room = null, Vector2? verticalConstraint = null, Vector2? horizontalConstraint = null, Vector2? zoomConstraint = null, bool spawn = true)
+        public static CameraToy Create(Transform? parent = null, CameraType type = CameraType.EzArmCameraToy, Vector3? position = null, Quaternion? rotation = null, Vector3? scale = null, string name = "New Camera", Room? room = null, Vector2? verticalConstraint = null, Vector2? horizontalConstraint = null, Vector2? zoomConstraint = null, bool spawn = true)
         {
             Scp079CameraToy prefab = type switch
             {

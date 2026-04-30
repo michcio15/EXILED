@@ -39,7 +39,7 @@ namespace Exiled.API.Features.Items
         /// </summary>
         /// <param name="player">The owner of the grenade. Leave <see langword="null"/> for no owner.</param>
         /// <remarks>The player parameter will always need to be defined if this grenade is custom using Exiled.CustomItems.</remarks>
-        internal FlashGrenade(Player player = null)
+        internal FlashGrenade(Player? player = null)
             : this((ThrowableItem)(player ?? Server.Host).Inventory.CreateItemInstance(new(ItemType.GrenadeFlash, 0), true))
         {
         }
@@ -91,7 +91,7 @@ namespace Exiled.API.Features.Items
         /// <param name="position">The location to spawn the grenade.</param>
         /// <param name="owner">Optional: The <see cref="Player"/> owner of the grenade.</param>
         /// <returns>Spawned <see cref="FlashbangProjectile">grenade</see>.</returns>
-        public FlashbangProjectile SpawnActive(Vector3 position, Player owner = null)
+        public FlashbangProjectile SpawnActive(Vector3 position, Player? owner = null)
         {
 #if DEBUG
             Log.Debug($"Spawning active grenade: {FuseTime}");

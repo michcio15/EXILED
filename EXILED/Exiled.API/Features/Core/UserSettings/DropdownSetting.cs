@@ -64,11 +64,11 @@ namespace Exiled.API.Features.Core.UserSettings
             IEnumerable<string> options,
             int defaultOptionIndex = 0,
             SSDropdownSetting.DropdownEntryType dropdownEntryType = SSDropdownSetting.DropdownEntryType.Regular,
-            string hintDescription = null,
+            string? hintDescription = null,
             byte collectionId = byte.MaxValue,
             bool isServerOnly = false,
-            HeaderSetting header = null,
-            Action<Player, SettingBase> onChanged = null)
+            HeaderSetting? header = null,
+            Action<Player, SettingBase>? onChanged = null)
             : base(new SSDropdownSetting(id, label, options.ToArray(), defaultOptionIndex, dropdownEntryType, hintDescription, collectionId, isServerOnly), header, onChanged)
         {
             Base = (SSDropdownSetting)base.Base;
@@ -152,7 +152,7 @@ namespace Exiled.API.Features.Core.UserSettings
         /// <param name="options"><inheritdoc cref="Options"/></param>
         /// <param name="overrideValue">If false, sends fake values.</param>
         /// <param name="filter">Who to send the update to.</param>
-        public void UpdateSetting(string[] options, bool overrideValue = true, Predicate<Player> filter = null)
+        public void UpdateSetting(string[] options, bool overrideValue = true, Predicate<Player>? filter = null)
         {
             filter ??= _ => true;
             Base.SendDropdownUpdate(options, overrideValue, hub => filter(Player.Get(hub)));
@@ -164,7 +164,7 @@ namespace Exiled.API.Features.Core.UserSettings
         /// <param name="selectedIndex"><inheritdoc cref="SelectedIndex"/></param>
         /// <param name="overrideValue">If false, sends fake values.</param>
         /// <param name="filter">Who to send the update to.</param>
-        public void UpdateValue(int selectedIndex, bool overrideValue = true, Predicate<Player> filter = null)
+        public void UpdateValue(int selectedIndex, bool overrideValue = true, Predicate<Player>? filter = null)
         {
             filter ??= _ => true;
             Base.SendValueUpdate(selectedIndex, overrideValue, hub => filter(Player.Get(hub)));

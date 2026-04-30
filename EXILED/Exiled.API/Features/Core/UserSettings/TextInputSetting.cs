@@ -33,9 +33,9 @@ namespace Exiled.API.Features.Core.UserSettings
             string label,
             SSTextArea.FoldoutMode foldoutMode = SSTextArea.FoldoutMode.NotCollapsable,
             TextAlignmentOptions alignment = TextAlignmentOptions.TopLeft,
-            string hintDescription = null,
-            HeaderSetting header = null,
-            Action<Player, SettingBase> onChanged = null)
+            string? hintDescription = null,
+            HeaderSetting? header = null,
+            Action<Player, SettingBase>? onChanged = null)
             : base(new SSTextArea(id, label, foldoutMode, hintDescription, alignment), header, onChanged)
         {
             Base = (SSTextArea)base.Base;

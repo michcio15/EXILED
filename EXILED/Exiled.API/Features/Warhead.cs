@@ -235,7 +235,7 @@ namespace Exiled.API.Features
         /// <param name="isAutomatic">Indicates whether the warhead is started automatically.</param>
         /// <param name="suppressSubtitles">If <see langword="true"/>, subtitles will not be displayed during the countdown.</param>
         /// <param name="trigger">The <see cref="Player"/> of the entity that triggered the warhead.</param>
-        public static void Start(bool isAutomatic, bool suppressSubtitles = false, Player trigger = null)
+        public static void Start(bool isAutomatic, bool suppressSubtitles = false, Player? trigger = null)
         {
             Controller.InstantPrepare();
             Controller.StartDetonation(isAutomatic, suppressSubtitles, trigger == null ? null : trigger.ReferenceHub);

@@ -9,6 +9,7 @@ namespace Exiled.API.Features
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     using Exiled.API.Interfaces;
@@ -217,7 +218,7 @@ namespace Exiled.API.Features
         /// <param name="baseTeslaGate">The <see cref="BaseTeslaGate"/> instance.</param>
         /// <param name="gate">A <see cref="TeslaGate"/> or <see langword="null"/> if not found.</param>
         /// <returns>Whether the tesla gate was found.</returns>
-        public static bool TryGet(BaseTeslaGate baseTeslaGate, out TeslaGate gate)
+        public static bool TryGet(BaseTeslaGate baseTeslaGate, [NotNullWhen(true)] out TeslaGate? gate)
         {
             gate = Get(baseTeslaGate);
             return gate is not null;

@@ -37,7 +37,7 @@ namespace Exiled.API.Features
         /// <param name="color">The color of the lines.</param>
         /// <param name="duration"> How long the line should remain visible.<para><warning><b>Warning:</b> Avoid using <see cref="float.PositiveInfinity"/> or extremely large values, as these lines cannot be removed from the client once sent.</warning></para></param>
         /// <param name="players">A collection of <see cref="Player"/>s to show the line to.</param>
-        public static void Line(Vector3 start, Vector3 end, Color color, float duration, IEnumerable<Player> players = null)
+        public static void Line(Vector3 start, Vector3 end, Color color, float duration, IEnumerable<Player>? players = null)
         {
             ArrayNonAlloc[0] = start;
             ArrayNonAlloc[1] = end;
@@ -52,7 +52,7 @@ namespace Exiled.API.Features
         /// <param name="color">The color of the lines.</param>
         /// <param name="duration"> How long the line should remain visible.<para><warning><b>Warning:</b> Avoid using <see cref="float.PositiveInfinity"/> or extremely large values, as these lines cannot be removed from the client once sent.</warning></para></param>
         /// <param name="players">A collection of <see cref="Player"/>s to show the path to.</param>
-        public static void Path(Vector3[] points, Color color, float duration, IEnumerable<Player> players = null)
+        public static void Path(Vector3[] points, Color color, float duration, IEnumerable<Player>? players = null)
         {
             Send(players, duration, color, points, points.Length);
         }
@@ -68,7 +68,7 @@ namespace Exiled.API.Features
         /// <param name="players">A collection of <see cref="Player"/>s to show the circle to.</param>
         /// <param name="horizontal">Indicates whether the circle should be drawn on the horizontal plane (XZ) or vertical plane (XY).</param>
         /// <param name="segments">The number of line segments used to draw the circle. Higher values result in a smoother circle.</param>
-        public static void Circle(Vector3 origin, Quaternion rotation, Vector3 scale, Color color, float duration, IEnumerable<Player> players = null, bool horizontal = true, int segments = 16)
+        public static void Circle(Vector3 origin, Quaternion rotation, Vector3 scale, Color color, float duration, IEnumerable<Player>? players = null, bool horizontal = true, int segments = 16)
         {
             Send(players, duration, color, GetCirclePoints(origin, rotation, scale, ref segments, horizontal), segments);
         }
@@ -83,7 +83,7 @@ namespace Exiled.API.Features
         /// <param name="duration"> How long the line should remain visible.<para><warning><b>Warning:</b> Avoid using <see cref="float.PositiveInfinity"/> or extremely large values, as these lines cannot be removed from the client once sent.</warning></para></param>
         /// <param name="players">A collection of <see cref="Player"/>s to show the sphere to.</param>
         /// <param name="segments">The number of segments for the circles. Higher values result in a smoother sphere.</param>
-        public static void Sphere(Vector3 origin, Quaternion rotation, Vector3 scale, Color color, float duration, IEnumerable<Player> players = null, int segments = 16)
+        public static void Sphere(Vector3 origin, Quaternion rotation, Vector3 scale, Color color, float duration, IEnumerable<Player>? players = null, int segments = 16)
         {
             List<Player> list = players is null ? null : ListPool<Player>.Pool.Get(players);
 
@@ -104,7 +104,7 @@ namespace Exiled.API.Features
         /// <param name="color">The color of the lines.</param>
         /// <param name="duration"> How long the line should remain visible.<para><warning><b>Warning:</b> Avoid using <see cref="float.PositiveInfinity"/> or extremely large values, as these lines cannot be removed from the client once sent.</warning></para></param>
         /// <param name="players">A collection of <see cref="Player"/>s to show the bounds to.</param>
-        public static void Bounds(Bounds bounds, Color color, float duration, IEnumerable<Player> players = null)
+        public static void Bounds(Bounds bounds, Color color, float duration, IEnumerable<Player>? players = null)
         {
             Box(bounds.center, bounds.size, Quaternion.identity, color, duration, players);
         }
@@ -116,7 +116,7 @@ namespace Exiled.API.Features
         /// <param name="color">The color of the lines.</param>
         /// <param name="duration"> How long the line should remain visible.<para><warning><b>Warning:</b> Avoid using <see cref="float.PositiveInfinity"/> or extremely large values, as these lines cannot be removed from the client once sent.</warning></para></param>
         /// <param name="players">A collection of <see cref="Player"/>s to show the bounds to.</param>
-        public static void RelativeBounds(RelativeBounds relativeBounds, Color color, float duration, IEnumerable<Player> players = null)
+        public static void RelativeBounds(RelativeBounds relativeBounds, Color color, float duration, IEnumerable<Player>? players = null)
         {
             Box(relativeBounds.Origin, relativeBounds.Bounds.size, relativeBounds.Rotation, color, duration, players);
         }
@@ -128,7 +128,7 @@ namespace Exiled.API.Features
         /// <param name="color">The color of the lines.</param>
         /// <param name="duration"> How long the line should remain visible.<para><warning><b>Warning:</b> Avoid using <see cref="float.PositiveInfinity"/> or extremely large values, as these lines cannot be removed from the client once sent.</warning></para></param>
         /// <param name="players">A collection of <see cref="Player"/>s to show the bounds to.</param>
-        public static void Collider(Collider collider, Color color, float duration, IEnumerable<Player> players = null)
+        public static void Collider(Collider collider, Color color, float duration, IEnumerable<Player>? players = null)
         {
             switch (collider)
             {
@@ -193,7 +193,7 @@ namespace Exiled.API.Features
         /// <param name="color">The color of the lines.</param>
         /// <param name="duration"> How long the line should remain visible.<para><warning><b>Warning:</b> Avoid using <see cref="float.PositiveInfinity"/> or extremely large values, as these lines cannot be removed from the client once sent.</warning></para></param>
         /// <param name="players">A collection of <see cref="Player"/>s to show the capsule to.</param>
-        public static void Capsule(Vector3 center, Quaternion rotation, float height, float radius, Vector3 scale, Color color, float duration, IEnumerable<Player> players = null)
+        public static void Capsule(Vector3 center, Quaternion rotation, float height, float radius, Vector3 scale, Color color, float duration, IEnumerable<Player>? players = null)
         {
             float sX = Mathf.Abs(scale.x);
             float sY = Mathf.Abs(scale.y);
@@ -247,7 +247,7 @@ namespace Exiled.API.Features
         /// <param name="color">The color of the lines.</param>
         /// <param name="duration"> How long the line should remain visible.<para><warning><b>Warning:</b> Avoid using <see cref="float.PositiveInfinity"/> or extremely large values, as these lines cannot be removed from the client once sent.</warning></para></param>
         /// <param name="players">A collection of <see cref="Player"/>s to show the capsule to.</param>
-        public static void Mesh(Mesh mesh, Transform transform, Color color, float duration, IEnumerable<Player> players = null)
+        public static void Mesh(Mesh mesh, Transform transform, Color color, float duration, IEnumerable<Player>? players = null)
         {
             int[] triangles = mesh.triangles;
             Vector3[] vertices = mesh.vertices;
@@ -277,7 +277,7 @@ namespace Exiled.API.Features
         /// <param name="color">The color of the lines.</param>
         /// <param name="duration"> How long the line should remain visible.<para><warning><b>Warning:</b> Avoid using <see cref="float.PositiveInfinity"/> or extremely large values, as these lines cannot be removed from the client once sent.</warning></para></param>
         /// <param name="players">A collection of <see cref="Player"/>s to show the sphere to.</param>
-        public static void Box(Vector3 center, Vector3 size, Quaternion rotation, Color color, float duration, IEnumerable<Player> players = null)
+        public static void Box(Vector3 center, Vector3 size, Quaternion rotation, Color color, float duration, IEnumerable<Player>? players = null)
         {
             Vector3 extents = size * 0.5f;
 

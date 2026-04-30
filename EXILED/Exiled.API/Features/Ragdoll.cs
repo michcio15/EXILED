@@ -216,12 +216,13 @@ namespace Exiled.API.Features
         /// <summary>
         /// Gets the <see cref="Features.Room"/> the ragdoll is located in.
         /// </summary>
-        public Room Room => Room.FindParentRoom(GameObject);
+        public Room? Room => Room.FindParentRoom(GameObject);
 
         /// <summary>
         /// Gets the <see cref="ZoneType"/> the ragdoll is in.
+        /// <remarks>Will be <see cref="ZoneType.Unspecified"/> if the <see cref="Room"/> is <see langword="null"/></remarks>
         /// </summary>
-        public ZoneType Zone => Room.Zone;
+        public ZoneType Zone => Room != null ? Room.Zone : ZoneType.Unspecified;
 
         /// <summary>
         /// Gets or sets the ragdoll's position.
@@ -344,7 +345,7 @@ namespace Exiled.API.Features
         /// <param name="ragdoll">Created ragdoll. Will be <see langword="null"/> if method retunred <see langword="false"/>.</param>
         /// <param name="owner">The optional owner of the ragdoll.</param>
         /// <returns>The ragdoll.</returns>
-        public static bool TryCreate(RoleTypeId roleType, string name, DamageHandlerBase damageHandler, out Ragdoll ragdoll, Player owner = null)
+        public static bool TryCreate(RoleTypeId roleType, string name, DamageHandlerBase damageHandler, out Ragdoll ragdoll, Player? owner = null)
             => TryCreate(new(owner?.ReferenceHub ?? Server.Host.ReferenceHub, damageHandler, roleType, default, default, name, NetworkTime.time), out ragdoll);
 
         /// <summary>
@@ -356,7 +357,7 @@ namespace Exiled.API.Features
         /// <param name="ragdoll">Created ragdoll. Will be <see langword="null"/> if method retunred <see langword="false"/>.</param>
         /// <param name="owner">The optional owner of the ragdoll.</param>
         /// <returns>The ragdoll.</returns>
-        public static bool TryCreate(RoleTypeId roleType, string name, string deathReason, out Ragdoll ragdoll, Player owner = null)
+        public static bool TryCreate(RoleTypeId roleType, string name, string deathReason, out Ragdoll ragdoll, Player? owner = null)
             => TryCreate(roleType: roleType, name: name, damageHandler: new CustomReasonDamageHandler(deathReason), out ragdoll, owner);
 
         /// <summary>
@@ -364,7 +365,7 @@ namespace Exiled.API.Features
         /// </summary>
         /// <param name="networkInfo">The data associated with the ragdoll.</param>
         /// <returns>The ragdoll.</returns>
-        public static Ragdoll CreateAndSpawn(RagdollData networkInfo)
+        public static Ragdoll? CreateAndSpawn(RagdollData networkInfo)
         {
             if (!TryCreate(networkInfo, out Ragdoll doll))
                 return null;
@@ -384,7 +385,7 @@ namespace Exiled.API.Features
         /// <param name="rotation">The rotation of the ragdoll.</param>
         /// <param name="owner">The optional owner of the ragdoll.</param>
         /// <returns>The ragdoll.</returns>
-        public static Ragdoll CreateAndSpawn(RoleTypeId roleType, string name, DamageHandlerBase damageHandler, Vector3 position, Quaternion? rotation = null, Player owner = null)
+        public static Ragdoll CreateAndSpawn(RoleTypeId roleType, string name, DamageHandlerBase damageHandler, Vector3 position, Quaternion? rotation = null, Player? owner = null)
         {
             RelativePosition relPos = new(position);
             Quaternion relRot = WaypointBase.GetRelativeRotation(relPos.WaypointId, rotation ?? Quaternion.identity);
@@ -401,7 +402,7 @@ namespace Exiled.API.Features
         /// <param name="rotation">The rotation of the ragdoll.</param>
         /// <param name="owner">The optional owner of the ragdoll.</param>
         /// <returns>The ragdoll.</returns>
-        public static Ragdoll CreateAndSpawn(RoleTypeId roleType, string name, string deathReason, Vector3 position, Quaternion? rotation = null, Player owner = null)
+        public static Ragdoll CreateAndSpawn(RoleTypeId roleType, string name, string deathReason, Vector3 position, Quaternion? rotation = null, Player? owner = null)
             => CreateAndSpawn(roleType, name, new CustomReasonDamageHandler(deathReason), position, rotation, owner);
 
         /// <summary>

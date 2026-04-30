@@ -45,7 +45,7 @@ namespace Exiled.API.Features.Audio.PcmSources
         /// <param name="language"> The language and locale code for the TTS voice. See <see href="https://www.voicerss.org/api/"/> for all supported language codes.</param>
         /// <param name="voice"> Optional specific voice name for the selected language.(See <see href="https://www.voicerss.org/api/"/> for available voices per language.)</param>
         /// <param name="rate"> Speech rate from -10 (slowest) to 10 (fastest). Defaults to 0 (normal speed).</param>
-        public VoiceRssTtsSource(string text, string apiKey, string language = "en-us", string voice = null, int rate = 0)
+        public VoiceRssTtsSource(string text, string apiKey, string language = "en-us", string? voice = null, int rate = 0)
             : this(text, new[] { apiKey }, language, voice, rate)
         {
         }
@@ -58,7 +58,7 @@ namespace Exiled.API.Features.Audio.PcmSources
         /// <param name="language"> The language and locale code for the TTS voice. See <see href="https://www.voicerss.org/api/"/> for all supported language codes.</param>
         /// <param name="voice"> Optional specific voice name for the selected language.(See <see href="https://www.voicerss.org/api/"/> for available voices per language.)</param>
         /// <param name="rate"> Speech rate from -10 (slowest) to 10 (fastest). Defaults to 0 (normal speed).</param>
-        public VoiceRssTtsSource(string text, IEnumerable<string> apiKeys, string language = "en-us", string voice = null, int rate = 0)
+        public VoiceRssTtsSource(string text, IEnumerable<string> apiKeys, string language = "en-us", string? voice = null, int rate = 0)
         {
             if (string.IsNullOrEmpty(text))
             {

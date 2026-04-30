@@ -190,7 +190,7 @@ namespace Exiled.API.Features.DamageHandlers
         /// </summary>
         /// <param name="damageHandler"><see cref="BaseHandler"/> from which <see cref="DamageType"/> should be get. If <c>null</c>, <see cref="Base"/> will be used.</param>
         /// <returns>Assosiated <see cref="DamageType"/>.</returns>
-        protected DamageType GetDamageType(BaseHandler damageHandler = null)
+        protected DamageType GetDamageType(BaseHandler? damageHandler = null)
         {
             damageHandler ??= Base;
 

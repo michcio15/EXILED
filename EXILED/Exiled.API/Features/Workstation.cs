@@ -63,12 +63,13 @@ namespace Exiled.API.Features
         /// <summary>
         /// Gets the <see cref="Room"/> the workstation is located in.
         /// </summary>
-        public Room Room => Room.Get(Position);
+        public Room? Room => Room.Get(Position);
 
         /// <summary>
         /// Gets the <see cref="ZoneType"/> of the workstation's room.
+        /// <remarks>Will be <see cref="ZoneType.Unspecified"/> if the <see cref="Room"/> is <see langword="null"/></remarks>
         /// </summary>
-        public ZoneType Zone => Room.Zone;
+        public ZoneType Zone => Room != null ? Room.Zone : ZoneType.Unspecified;
 
         /// <summary>
         /// Gets or sets the position of the workstation.
@@ -119,10 +120,10 @@ namespace Exiled.API.Features
         /// <summary>
         /// Gets or sets the player known to be using the workstation.
         /// </summary>
-        public Player KnownUser
+        public Player? KnownUser
         {
             get => Player.Get(Base.KnownUser);
-            set => Base.KnownUser = value.ReferenceHub;
+            set => Base.KnownUser = value?.ReferenceHub;
         }
 
         /// <summary>

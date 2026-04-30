@@ -99,7 +99,7 @@ namespace Exiled.API.Features.Toys
         /// <param name="parent">The transform to create this <see cref="Text"/> on.</param>
         /// <param name="spawn">Whether the <see cref="Text"/> should be initially spawned.</param>
         /// <returns>The new <see cref="Text"/>.</returns>
-        public static Text Create(Vector3? position = null, Quaternion? rotation = null, Vector3? scale = null, string text = "Default Text", Vector2? displaySize = null, Transform parent = null, bool spawn = true)
+        public static Text Create(Vector3? position = null, Quaternion? rotation = null, Vector3? scale = null, string text = "Default Text", Vector2? displaySize = null, Transform? parent = null, bool spawn = true)
         {
             Text textToy = new(Object.Instantiate(Prefab, parent))
             {

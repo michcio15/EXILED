@@ -48,7 +48,7 @@ namespace Exiled.API.Features.Core.UserSettings
         /// <param name="isServerOnly"><inheritdoc cref="SettingBase.IsServerOnly"/></param>
         /// <param name="header"><inheritdoc cref="SettingBase.Header"/></param>
         /// <param name="onChanged"><inheritdoc cref="SettingBase.OnChanged"/></param>
-        public TwoButtonsSetting(int id, string label, string firstOption, string secondOption, bool defaultIsSecond = false, string hintDescription = "", byte collectionId = byte.MaxValue, bool isServerOnly = false, HeaderSetting header = null, Action<Player, SettingBase> onChanged = null)
+        public TwoButtonsSetting(int id, string label, string firstOption, string secondOption, bool defaultIsSecond = false, string hintDescription = "", byte collectionId = byte.MaxValue, bool isServerOnly = false, HeaderSetting? header = null, Action<Player, SettingBase>? onChanged = null)
             : base(new SSTwoButtonsSetting(id, label, firstOption, secondOption, defaultIsSecond, hintDescription, collectionId, isServerOnly), header, onChanged)
         {
             Base = (SSTwoButtonsSetting)base.Base;
@@ -125,7 +125,7 @@ namespace Exiled.API.Features.Core.UserSettings
         /// <param name="secondOption"><inheritdoc cref="SecondOption"/></param>
         /// <param name="overrideValue">If false, sends fake values.</param>
         /// <param name="filter">Who to send the update to.</param>
-        public void UpdateSetting(string firstOption, string secondOption, bool overrideValue = true, Predicate<Player> filter = null)
+        public void UpdateSetting(string firstOption, string secondOption, bool overrideValue = true, Predicate<Player>? filter = null)
         {
             filter ??= _ => true;
             Base.SendTwoButtonUpdate(firstOption, secondOption, overrideValue, hub => filter(Player.Get(hub)));
@@ -137,7 +137,7 @@ namespace Exiled.API.Features.Core.UserSettings
         /// <param name="isSecond"><inheritdoc cref="IsSecond"/></param>
         /// <param name="overrideValue">If false, sends fake values.</param>
         /// <param name="filter">Who to send the update to.</param>
-        public void UpdateValue(bool isSecond, bool overrideValue = true, Predicate<Player> filter = null)
+        public void UpdateValue(bool isSecond, bool overrideValue = true, Predicate<Player>? filter = null)
         {
             filter ??= _ => true;
             Base.SendValueUpdate(isSecond, overrideValue, hub => filter(Player.Get(hub)));

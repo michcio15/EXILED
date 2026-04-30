@@ -139,6 +139,6 @@ namespace Exiled.API.Features
         /// </summary>
         /// <param name="player"><see cref="Player"/> who interacts with Scp914.</param>
         /// <param name="code"><see cref="Scp914InteractCode"/> Interact code.</param>
-        public static void Start(Player player = null, Scp914InteractCode code = Scp914InteractCode.Activate) => Scp914Controller.ServerInteract((player ?? Server.Host).ReferenceHub, (byte)code);
+        public static void Start(Player? player = null, Scp914InteractCode code = Scp914InteractCode.Activate) => Scp914Controller.ServerInteract((player ?? Server.Host).ReferenceHub, (byte)code);
     }
 }

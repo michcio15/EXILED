@@ -40,7 +40,7 @@ namespace Exiled.API.Features.Core
         /// Initializes a new instance of the <see cref="EObject"/> class.
         /// </summary>
         /// <param name="gameObject"><inheritdoc cref="Base"/></param>
-        protected EObject(GameObject gameObject = null)
+        protected EObject(GameObject? gameObject = null)
             : this()
         {
             if (gameObject)

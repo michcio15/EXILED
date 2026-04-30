@@ -78,7 +78,7 @@ namespace Exiled.API.Features.Toys
         /// <param name="collidable">Whether the capybara has collision enabled.</param>
         /// <param name="spawn">Whether the <see cref="Capybara"/> should be initially spawned.</param>
         /// <returns>The new <see cref="Capybara"/>.</returns>
-        public static Capybara Create(Transform parent = null, Vector3? position = null, Quaternion? rotation = null, Vector3? scale = null, bool collidable = true, bool spawn = true)
+        public static Capybara Create(Transform? parent = null, Vector3? position = null, Quaternion? rotation = null, Vector3? scale = null, bool collidable = true, bool spawn = true)
         {
             Capybara toy = new(Object.Instantiate(Prefab, parent))
             {

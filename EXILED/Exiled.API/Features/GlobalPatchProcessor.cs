@@ -68,7 +68,7 @@ namespace Exiled.API.Features
         /// <param name="groupId">The target group to include.</param>
         /// <exception cref="ArgumentNullException">Thrown when the <see cref="PatchGroupAttribute.GroupId"/> is <see langword="null"/> or empty.</exception>
         /// <returns>The <see cref="Harmony"/> instance.</returns>
-        public static Harmony PatchAll(string id = "", string groupId = null)
+        public static Harmony PatchAll(string id = "", string? groupId = null)
         {
             try
             {
@@ -131,7 +131,7 @@ namespace Exiled.API.Features
         /// <param name="id">The Harmony instance id.</param>
         /// <param name="groupId">The target group to include.</param>
         /// <exception cref="ArgumentNullException">Thrown when the <see cref="PatchGroupAttribute.GroupId"/> is <see langword="null"/> or empty.</exception>
-        public static void UnpatchAll(string id = "", string groupId = null)
+        public static void UnpatchAll(string id = "", string? groupId = null)
         {
             Harmony harmony = new(id);
             foreach (MethodBase methodBase in Harmony.GetAllPatchedMethods().ToList())

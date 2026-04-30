@@ -44,7 +44,7 @@ namespace Exiled.API.Features
         /// </summary>
         public static IEnumerable<Player> BlacklistedPlayers
         {
-            get => BaseCoffee.BlacklistedPlayers.Select(Player.Get);
+            get => BaseCoffee.BlacklistedPlayers.Select(Player.Get)!;
             set
             {
                 BaseCoffee.BlacklistedPlayers.Clear();
@@ -116,6 +116,6 @@ namespace Exiled.API.Features
         /// Interacts with <see cref="Coffee"/>.
         /// </summary>
         /// <param name="player">The player who interacts. If <see langword="null"/>, it will be chosen randomly.</param>
-        public void Interact(Player player = null) => Base.ServerInteract((player ?? Player.Get(x => x.IsHuman).GetRandomValue()).ReferenceHub, byte.MaxValue);
+        public void Interact(Player? player = null) => Base.ServerInteract((player ?? Player.Get(x => x.IsHuman).GetRandomValue()).ReferenceHub, byte.MaxValue);
     }
 }

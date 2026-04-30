@@ -9,6 +9,7 @@ namespace Exiled.API.Features
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     using CustomPlayerEffects;
@@ -43,7 +44,9 @@ namespace Exiled.API.Features
             get
             {
                 if (field == null)
+                {
                     field = GameObject.Find("Chopper");
+                }
 
                 return field;
             }
@@ -57,7 +60,9 @@ namespace Exiled.API.Features
             get
             {
                 if (field == null)
+                {
                     field = GameObject.Find("CIVanArrive");
+                }
 
                 return field;
             }
@@ -118,7 +123,7 @@ namespace Exiled.API.Features
         /// <typeparam name="T">Type of <see cref="SpawnableWaveBase"/>.</typeparam>
         /// <returns><c>true</c> if <paramref name="spawnableWaveBase"/> was successfully found. Otherwise, <c>false</c>.</returns>
         /// <seealso cref="TryGetWaveBases(PlayerRoles.Faction,out System.Collections.Generic.IEnumerable{Respawning.Waves.SpawnableWaveBase})"/>
-        public static bool TryGetWaveBase<T>(out T spawnableWaveBase)
+        public static bool TryGetWaveBase<T>([NotNullWhen(true)] out T? spawnableWaveBase)
             where T : SpawnableWaveBase => WaveManager.TryGet(out spawnableWaveBase);
 
         /// <summary>
@@ -128,7 +133,7 @@ namespace Exiled.API.Features
         /// <param name="spawnableWaveBase">The found <see cref="SpawnableWaveBase"/>.</param>
         /// <returns><c>true</c> if <paramref name="spawnableWaveBase"/> was successfully found. Otherwise, <c>false</c>.</returns>
         /// <seealso cref="TryGetWaveBases(PlayerRoles.Faction,out System.Collections.Generic.IEnumerable{Respawning.Waves.SpawnableWaveBase})"/>
-        public static bool TryGetWaveBase(SpawnableFaction spawnableFaction, out SpawnableWaveBase spawnableWaveBase)
+        public static bool TryGetWaveBase(SpawnableFaction spawnableFaction, [NotNullWhen(true)] out SpawnableWaveBase? spawnableWaveBase)
         {
             spawnableWaveBase = WaveManager.Waves.Find(x => x.GetSpawnableFaction() == spawnableFaction);
             return spawnableWaveBase is not null;
@@ -141,7 +146,7 @@ namespace Exiled.API.Features
         /// <param name="spawnableWaveBases">The <see cref="IEnumerable{T}"/> containing found <see cref="SpawnableWaveBase"/>'s if there are any, otherwise <c>null</c>.</param>
         /// <returns><c>true</c> if <paramref name="spawnableWaveBases"/> was successfully found. Otherwise, <c>false</c>.</returns>
         /// <seealso cref="TryGetWaveBase{T}"/>
-        public static bool TryGetWaveBases(Faction faction, out IEnumerable<SpawnableWaveBase> spawnableWaveBases)
+        public static bool TryGetWaveBases(Faction faction, [NotNullWhen(true)] out IEnumerable<SpawnableWaveBase>? spawnableWaveBases)
         {
             List<SpawnableWaveBase> spawnableWaves = new();
             spawnableWaves.AddRange(WaveManager.Waves.Where(x => x.TargetFaction == faction));
@@ -210,8 +215,10 @@ namespace Exiled.API.Features
         /// </summary>
         public static void SummonNtfChopper()
         {
-            if (TryGetWaveBase(SpawnableFaction.NtfWave, out SpawnableWaveBase wave))
+            if (TryGetWaveBase(SpawnableFaction.NtfWave, out SpawnableWaveBase? wave))
+            {
                 PlayEffect(wave);
+            }
         }
 
         /// <summary>
@@ -221,8 +228,10 @@ namespace Exiled.API.Features
         /// <!--not sure if it actually plays the music, needs to be tested-->
         public static void SummonChaosInsurgencyVan()
         {
-            if (TryGetWaveBase(SpawnableFaction.ChaosWave, out SpawnableWaveBase wave))
+            if (TryGetWaveBase(SpawnableFaction.ChaosWave, out SpawnableWaveBase? wave))
+            {
                 PlayEffect(wave);
+            }
         }
 
         /// <summary>
@@ -233,7 +242,7 @@ namespace Exiled.API.Features
         /// <returns><c>true</c> if tokens were successfully granted to an <see cref="ILimitedWave"/>, otherwise <c>false</c>.</returns>
         public static bool GrantTokens(Faction faction, int amount)
         {
-            if (TryGetWaveBases(faction, out IEnumerable<SpawnableWaveBase> waveBases))
+            if (TryGetWaveBases(faction, out IEnumerable<SpawnableWaveBase>? waveBases))
             {
                 foreach (ILimitedWave limitedWave in waveBases.OfType<ILimitedWave>())
                 {
@@ -254,7 +263,7 @@ namespace Exiled.API.Features
         /// <returns><c>true</c> if tokens were successfully removed from an <see cref="ILimitedWave"/>, otherwise <c>false</c>.</returns>
         public static bool RemoveTokens(Faction faction, int amount)
         {
-            if (TryGetWaveBases(faction, out IEnumerable<SpawnableWaveBase> waveBases))
+            if (TryGetWaveBases(faction, out IEnumerable<SpawnableWaveBase>? waveBases))
             {
                 foreach (ILimitedWave limitedWave in waveBases.OfType<ILimitedWave>())
                 {
@@ -275,7 +284,7 @@ namespace Exiled.API.Features
         /// <returns><c>true</c> if tokens were successfully modified for an <see cref="ILimitedWave"/>, otherwise <c>false</c>.</returns>
         public static bool ModifyTokens(Faction faction, int amount)
         {
-            if (TryGetWaveBases(faction, out IEnumerable<SpawnableWaveBase> waveBases))
+            if (TryGetWaveBases(faction, out IEnumerable<SpawnableWaveBase>? waveBases))
             {
                 foreach (ILimitedWave limitedWave in waveBases.OfType<ILimitedWave>())
                 {
@@ -296,7 +305,7 @@ namespace Exiled.API.Features
         /// <returns><c>true</c> if an <see cref="ILimitedWave"/> was successfully found, otherwise <c>false</c>.</returns>
         public static bool TryGetTokens(SpawnableFaction spawnableFaction, out int tokens)
         {
-            if (TryGetWaveBase(spawnableFaction, out SpawnableWaveBase waveBase) && waveBase is ILimitedWave limitedWave)
+            if (TryGetWaveBase(spawnableFaction, out SpawnableWaveBase? waveBase) && waveBase is ILimitedWave limitedWave)
             {
                 tokens = limitedWave.RespawnTokens;
                 return true;
@@ -314,7 +323,7 @@ namespace Exiled.API.Features
         /// <returns><c>true</c> if tokens were successfully set for an <see cref="ILimitedWave"/>, otherwise <c>false</c>.</returns>
         public static bool SetTokens(SpawnableFaction spawnableFaction, int amount)
         {
-            if (TryGetWaveBase(spawnableFaction, out SpawnableWaveBase waveBase) && waveBase is ILimitedWave limitedWave)
+            if (TryGetWaveBase(spawnableFaction, out SpawnableWaveBase? waveBase) && waveBase is ILimitedWave limitedWave)
             {
                 limitedWave.RespawnTokens = amount;
                 return true;
@@ -370,7 +379,7 @@ namespace Exiled.API.Features
         /// <param name="spawnableFaction">The <see cref="SpawnableFaction"/> whose wave to spawn.</param>
         public static void ForceWave(SpawnableFaction spawnableFaction)
         {
-            if (TryGetWaveBase(spawnableFaction, out SpawnableWaveBase spawnableWaveBase))
+            if (TryGetWaveBase(spawnableFaction, out SpawnableWaveBase? spawnableWaveBase))
             {
                 ForceWave(spawnableWaveBase);
             }
@@ -391,7 +400,7 @@ namespace Exiled.API.Features
         /// <param name="spawnableFaction">The <see cref="SpawnableFaction"/> representing the wave to pause.</param>
         public static void PauseWave(SpawnableFaction spawnableFaction)
         {
-            if (TryGetWaveBase(spawnableFaction, out SpawnableWaveBase spawnableWaveBase))
+            if (TryGetWaveBase(spawnableFaction, out SpawnableWaveBase? spawnableWaveBase))
             {
                 if (!PausedWaves.Contains(spawnableWaveBase))
                 {
@@ -452,7 +461,7 @@ namespace Exiled.API.Features
         /// </param>
         public static void RestartWave(SpawnableFaction spawnableFaction)
         {
-            if (TryGetWaveBase(spawnableFaction, out SpawnableWaveBase spawnableWaveBase))
+            if (TryGetWaveBase(spawnableFaction, out SpawnableWaveBase? spawnableWaveBase))
             {
                 if (!WaveManager.Waves.Contains(spawnableWaveBase))
                 {

@@ -20,7 +20,7 @@ namespace Exiled.API.Features.Audio
         /// <param name="time">The exact time in seconds to trigger the action.</param>
         /// <param name="action">The action to execute.</param>
         /// <param name="id">The optional unique identifier for the event. If null, a random GUID will be generated automatically.</param>
-        public ScheduledEvent(double time, Action action, string id = null)
+        public ScheduledEvent(double time, Action action, string? id = null)
         {
             Time = time;
             Action = action;

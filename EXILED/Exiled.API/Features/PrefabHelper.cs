@@ -5,6 +5,8 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace Exiled.API.Features
 {
     using System;
@@ -55,7 +57,7 @@ namespace Exiled.API.Features
         /// </summary>
         /// <param name="prefabType">The <see cref="PrefabType"/>.</param>
         /// <returns>Returns the <see cref="GameObject"/>.</returns>
-        public static GameObject GetPrefab(PrefabType prefabType)
+        public static GameObject? GetPrefab(PrefabType prefabType)
         {
             if (prefabType is PrefabType.HCZOneSided or PrefabType.HCZTwoSided)
             {
@@ -74,10 +76,10 @@ namespace Exiled.API.Features
         /// <param name="prefabType">The <see cref="PrefabType"/>.</param>
         /// <param name="gameObject">The <see cref="GameObject"/> of the .</param>
         /// <returns>Returns true if the <see cref="GameObject"/> was found.</returns>
-        public static bool TryGetPrefab(PrefabType prefabType, out GameObject gameObject)
+        public static bool TryGetPrefab(PrefabType prefabType, [NotNullWhen(true)] out GameObject? gameObject)
         {
             gameObject = GetPrefab(prefabType);
-            return gameObject is not null;
+            return gameObject != null;
         }
 
         /// <summary>
@@ -86,11 +88,13 @@ namespace Exiled.API.Features
         /// <param name="prefabType">The <see cref="PrefabType"/>.</param>
         /// <typeparam name="T">The <see cref="Component"/> type.</typeparam>
         /// <returns>Returns the <see cref="Component"/>.</returns>
-        public static T GetPrefab<T>(PrefabType prefabType)
+        public static T? GetPrefab<T>(PrefabType prefabType)
             where T : Component
         {
             if (Prefabs.TryGetValue(prefabType, out (GameObject, Component) prefab))
+            {
                 return (T)prefab.Item2;
+            }
 
             return null;
         }
@@ -102,10 +106,12 @@ namespace Exiled.API.Features
         /// <param name="position">The <see cref="Vector3"/> position where the <see cref="GameObject"/> will spawn.</param>
         /// <param name="rotation">The <see cref="Quaternion"/> rotation of the <see cref="GameObject"/>.</param>
         /// <returns>Returns the <see cref="GameObject"/> instantied.</returns>
-        public static GameObject Spawn(PrefabType prefabType, Vector3 position = default, Quaternion? rotation = null)
+        public static GameObject? Spawn(PrefabType prefabType, Vector3 position = default, Quaternion? rotation = null)
         {
-            if (!TryGetPrefab(prefabType, out GameObject gameObject))
+            if (!TryGetPrefab(prefabType, out GameObject? gameObject))
+            {
                 return null;
+            }
 
             rotation ??= Quaternion.identity;
 
@@ -141,11 +147,11 @@ namespace Exiled.API.Features
         /// <param name="rotation">The <see cref="Quaternion"/> rotation of the <see cref="GameObject"/>.</param>
         /// <typeparam name="T">The <see cref="Component"/> type.</typeparam>
         /// <returns>Returns the <see cref="Component"/> of the <see cref="GameObject"/>.</returns>
-        public static T Spawn<T>(PrefabType prefabType, Vector3 position = default, Quaternion? rotation = null)
+        public static T? Spawn<T>(PrefabType prefabType, Vector3 position = default, Quaternion? rotation = null)
             where T : Component
         {
-            GameObject gameObject = Spawn(prefabType, position, rotation);
-            return gameObject?.GetComponent<T>();
+            GameObject? gameObject = Spawn(prefabType, position, rotation);
+            return gameObject != null ? gameObject.GetComponent<T>() : null;
         }
     }
 }

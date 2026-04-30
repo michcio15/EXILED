@@ -43,7 +43,7 @@ namespace Exiled.API.Features.Items
         /// <param name="type">The <see cref="ItemType"/> of the grenade.</param>
         /// <param name="player">The owner of the grenade. Leave <see langword="null"/> for no owner.</param>
         /// <remarks>The player parameter will always need to be defined if this grenade is custom using Exiled.CustomItems.</remarks>
-        internal Scp018(ItemType type, Player player = null)
+        internal Scp018(ItemType type, Player? player = null)
             : this((ThrowableItem)(player ?? Server.Host).Inventory.CreateItemInstance(new(type, 0), true))
         {
         }
@@ -77,7 +77,7 @@ namespace Exiled.API.Features.Items
         /// <param name="position">The location to spawn the grenade.</param>
         /// <param name="owner">Optional: The <see cref="Player"/> owner of the grenade.</param>
         /// <returns>Spawned <see cref="Scp018Projectile">grenade</see>.</returns>
-        public Scp018Projectile SpawnActive(Vector3 position, Player owner = null)
+        public Scp018Projectile SpawnActive(Vector3 position, Player? owner = null)
         {
 #if DEBUG
             Log.Debug($"Spawning active grenade: {FuseTime}");

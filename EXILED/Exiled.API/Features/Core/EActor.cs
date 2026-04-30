@@ -50,7 +50,7 @@ namespace Exiled.API.Features.Core
         /// Initializes a new instance of the <see cref="EActor"/> class.
         /// </summary>
         /// <param name="gameObject">The base <see cref="GameObject"/>.</param>
-        protected EActor(GameObject gameObject = null)
+        protected EActor(GameObject? gameObject = null)
             : this()
         {
             if (gameObject)

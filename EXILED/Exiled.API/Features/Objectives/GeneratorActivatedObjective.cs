@@ -39,6 +39,6 @@ namespace Exiled.API.Features.Objectives
         /// </summary>
         /// <param name="generator">Generator that is activated.</param>
         /// <param name="player">Player that activated the generator.</param>
-        public void Activate(Generator generator, Player player = null) => Base.OnGeneratorEngaged(generator.Base, (player ?? Server.Host).Footprint);
+        public void Activate(Generator generator, Player? player = null) => Base.OnGeneratorEngaged(generator.Base, (player ?? Server.Host).Footprint);
     }
 }

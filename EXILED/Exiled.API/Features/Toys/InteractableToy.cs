@@ -113,7 +113,7 @@ namespace Exiled.API.Features.Toys
         /// <param name="isLocked">Whether the object is locked.</param>
         /// <param name="spawn">Whether the <see cref="InteractableToy"/> should be initially spawned.</param>
         /// <returns>The new <see cref="InteractableToy"/>.</returns>
-        public static InteractableToy Create(Transform parent = null, Vector3? position = null, Quaternion? rotation = null, Vector3? scale = null, ColliderShape shape = ColliderShape.Sphere, float interactionDuration = 1f, bool isLocked = false, bool spawn = true)
+        public static InteractableToy Create(Transform? parent = null, Vector3? position = null, Quaternion? rotation = null, Vector3? scale = null, ColliderShape shape = ColliderShape.Sphere, float interactionDuration = 1f, bool isLocked = false, bool spawn = true)
         {
             InteractableToy toy = new(Object.Instantiate(Prefab, parent))
             {

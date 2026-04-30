@@ -322,7 +322,7 @@ namespace Exiled.API.Features.Items
         /// <param name="type">The <see cref="ItemType"/> of the item to create.</param>
         /// <param name="owner">The <see cref="Player"/> who owns the item by default.</param>
         /// <returns>The <see cref="Item"/> created. This can be cast as a subclass.</returns>
-        public static Item Create(ItemType type, Player owner = null) => type.GetTemplate() switch
+        public static Item Create(ItemType type, Player? owner = null) => type.GetTemplate() switch
         {
             InventorySystem.Items.Firearms.Firearm => type switch
             {
@@ -402,7 +402,7 @@ namespace Exiled.API.Features.Items
         /// <param name="owner">The <see cref="Player"/> who owns the item by default.</param>
         /// <typeparam name="T">The specified <see cref="Item"/> type.</typeparam>
         /// <returns>The <see cref="Item"/> created. This can be cast as a subclass.</returns>
-        public static T Create<T>(ItemType type, Player owner = null)
+        public static T Create<T>(ItemType type, Player? owner = null)
             where T : Item => Create(type, owner) as T;
 
         /// <summary>

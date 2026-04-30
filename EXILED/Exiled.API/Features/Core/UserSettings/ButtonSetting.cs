@@ -28,7 +28,7 @@ namespace Exiled.API.Features.Core.UserSettings
         /// <param name="hintDescription"><inheritdoc cref="SettingBase.HintDescription"/></param>
         /// <param name="header"><inheritdoc cref="SettingBase.Header"/></param>
         /// <param name="onChanged"><inheritdoc cref="SettingBase.OnChanged"/></param>
-        public ButtonSetting(int id, string label, string buttonText, float holdTime = 0.0f, string hintDescription = null, HeaderSetting header = null, Action<Player, SettingBase> onChanged = null)
+        public ButtonSetting(int id, string label, string buttonText, float holdTime = 0.0f, string? hintDescription = null, HeaderSetting? header = null, Action<Player, SettingBase>? onChanged = null)
             : base(new SSButton(id, label, buttonText, holdTime, hintDescription), header, onChanged)
         {
             Base = (SSButton)base.Base;
@@ -83,7 +83,7 @@ namespace Exiled.API.Features.Core.UserSettings
         /// <param name="holdTime"><inheritdoc cref="HoldTime"/></param>
         /// <param name="overrideValue">If false, sends fake values.</param>
         /// <param name="filter">Who to send the update to.</param>
-        public void UpdateSetting(string text, float holdTime, bool overrideValue = true, Predicate<Player> filter = null)
+        public void UpdateSetting(string text, float holdTime, bool overrideValue = true, Predicate<Player>? filter = null)
         {
             filter ??= _ => true;
             Base.SendButtonUpdate(text, holdTime, overrideValue, hub => filter(Player.Get(hub)));

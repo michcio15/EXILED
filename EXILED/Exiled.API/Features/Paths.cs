@@ -99,7 +99,7 @@ namespace Exiled.API.Features
         /// Reloads all paths.
         /// </summary>
         /// <param name="rootDirectory">The new root directory.</param>
-        public static void Reload(string rootDirectory = null)
+        public static void Reload(string? rootDirectory = null)
         {
             rootDirectory ??= Path.Combine(AppData, "EXILED");
 

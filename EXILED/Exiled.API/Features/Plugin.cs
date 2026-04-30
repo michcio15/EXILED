@@ -5,6 +5,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+#nullable disable
 namespace Exiled.API.Features
 {
     using System.Linq;

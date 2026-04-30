@@ -566,7 +566,7 @@ namespace Exiled.API.Features.Pickups
         /// <param name="previousOwner">An optional previous owner of the item.</param>
         /// <returns>The <see cref="Pickup"/>. See documentation of <see cref="Create(ItemType)"/> for more information on casting.</returns>
         /// <seealso cref="Projectile.CreateAndSpawn(Enums.ProjectileType, Vector3, Quaternion?, bool, Player)"/>
-        public static Pickup CreateAndSpawn(ItemType type, Vector3 position, Quaternion? rotation = null, Player previousOwner = null) => Create(type).Spawn(position, rotation, previousOwner);
+        public static Pickup CreateAndSpawn(ItemType type, Vector3 position, Quaternion? rotation = null, Player? previousOwner = null) => Create(type).Spawn(position, rotation, previousOwner);
 
         /// <summary>
         /// Creates and spawns a <see cref="Pickup"/>.
@@ -578,7 +578,7 @@ namespace Exiled.API.Features.Pickups
         /// <typeparam name="T">The specified <see cref="Pickup"/> type.</typeparam>
         /// <returns>The <see cref="Pickup"/>. See documentation of <see cref="Create(ItemType)"/> for more information on casting.</returns>
         /// <seealso cref="Projectile.CreateAndSpawn(Enums.ProjectileType, Vector3, Quaternion?, bool, Player)"/>
-        public static T CreateAndSpawn<T>(ItemType type, Vector3 position, Quaternion? rotation = null, Player previousOwner = null)
+        public static T CreateAndSpawn<T>(ItemType type, Vector3 position, Quaternion? rotation = null, Player? previousOwner = null)
             where T : Pickup => CreateAndSpawn(type, position, rotation, previousOwner) as T;
 
         /// <summary>
@@ -622,7 +622,7 @@ namespace Exiled.API.Features.Pickups
         /// <param name="previousOwner">An optional previous owner of the item.</param>
         /// <returns>The spawned <see cref="Pickup"/>.</returns>
         /// <seealso cref="Projectile.Spawn(Vector3, Quaternion?, bool, Player)"/>
-        public Pickup Spawn(Vector3 position, Quaternion? rotation = null, Player previousOwner = null)
+        public Pickup Spawn(Vector3 position, Quaternion? rotation = null, Player? previousOwner = null)
         {
             Position = position;
             Rotation = rotation ?? Quaternion.identity;

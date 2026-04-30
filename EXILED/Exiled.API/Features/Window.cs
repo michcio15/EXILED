@@ -5,6 +5,8 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace Exiled.API.Features
 {
     using System;
@@ -52,7 +54,7 @@ namespace Exiled.API.Features
         /// <summary>
         /// Gets the base-game <see cref="BreakableWindow"/> for this window.
         /// </summary>
-        public BreakableWindow Base { get; }
+        public BreakableWindow Base { get; } = null!;
 
         /// <summary>
         /// Gets the <see cref="UnityEngine.GameObject"/> of the window.
@@ -142,10 +144,10 @@ namespace Exiled.API.Features
         /// <summary>
         /// Gets or sets a value indicating who is the LastAttacker.
         /// </summary>
-        public Player LastAttacker
+        public Player? LastAttacker
         {
             get => Player.Get(Base.LastAttacker.Hub);
-            set => Base.LastAttacker = value.Footprint;
+            set => Base.LastAttacker = value!.Footprint;
         }
 
         /// <summary>
@@ -170,7 +172,7 @@ namespace Exiled.API.Features
         /// <param name="breakableWindow">The <see cref="BreakableWindow"/> instance.</param>
         /// <param name="window">A <see cref="Window"/> or <see langword="null"/> if not found.</param>
         /// <returns>Whether a window was found.</returns>
-        public static bool TryGet(BreakableWindow breakableWindow, out Window window)
+        public static bool TryGet(BreakableWindow breakableWindow, [NotNullWhen(true)] out Window? window)
         {
             window = Get(breakableWindow);
             return window is not null;

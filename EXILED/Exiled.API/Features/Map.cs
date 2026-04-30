@@ -131,7 +131,7 @@ namespace Exiled.API.Features
         /// </summary>
         /// <param name="message">The message to send.</param>
         /// <param name="player">The player to send message as, null will use Server Host.</param>
-        public static void StaffMessage(string message, Player player = null)
+        public static void StaffMessage(string message, Player? player = null)
         {
             player ??= Server.Host;
             foreach (Player target in Player.List)
@@ -447,7 +447,7 @@ namespace Exiled.API.Features
         /// <param name="position">The position where explosion will be created.</param>
         /// <param name="projectileType">The projectile that will create the explosion.</param>
         /// <param name="attacker">The player who create the explosion.</param>
-        public static void Explode(Vector3 position, ProjectileType projectileType, Player attacker = null)
+        public static void Explode(Vector3 position, ProjectileType projectileType, Player? attacker = null)
         {
             ItemType item;
             if ((item = projectileType.GetItemType()) is ItemType.None)

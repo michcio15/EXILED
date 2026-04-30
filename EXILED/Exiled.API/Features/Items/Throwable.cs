@@ -40,7 +40,7 @@ namespace Exiled.API.Features.Items
         /// <param name="type">The <see cref="ItemType"/> of the throwable item.</param>
         /// <param name="player">The owner of the throwable item. Leave <see langword="null"/> for no owner.</param>
         /// <remarks>The player parameter will always need to be defined if this throwable is custom using Exiled.CustomItems.</remarks>
-        internal Throwable(ItemType type, Player player = null)
+        internal Throwable(ItemType type, Player? player = null)
             : this((ThrowableItem)(player ?? Server.Host).Inventory.CreateItemInstance(new(type, 0), true))
         {
         }

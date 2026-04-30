@@ -431,7 +431,7 @@ namespace Exiled.API.Features.Toys
         /// <param name="controllerId">The specific controller ID to assign. If null, the next available ID is used.</param>
         /// <param name="spawn">Whether the <see cref="Speaker"/> should be initially spawned.</param>
         /// <returns>The new <see cref="Speaker"/>.</returns>
-        public static Speaker Create(Transform parent = null, Vector3? position = null, float volume = DefaultVolume, bool isSpatial = DefaultSpatial, float minDistance = DefaultMinDistance, float maxDistance = DefaultMaxDistance, byte? controllerId = null, bool spawn = true)
+        public static Speaker Create(Transform? parent = null, Vector3? position = null, float volume = DefaultVolume, bool isSpatial = DefaultSpatial, float minDistance = DefaultMinDistance, float maxDistance = DefaultMaxDistance, byte? controllerId = null, bool spawn = true)
         {
             Speaker speaker = new(Object.Instantiate(Prefab, parent))
             {
@@ -455,7 +455,7 @@ namespace Exiled.API.Features.Toys
         /// <param name="parent">The parent transform to attach the <see cref="Speaker"/> to.</param>
         /// <param name="position">The local position of the <see cref="Speaker"/>.</param>
         /// <returns>A clean <see cref="Speaker"/> instance ready for use.</returns>
-        public static Speaker Rent(Transform parent = null, Vector3? position = null)
+        public static Speaker Rent(Transform? parent = null, Vector3? position = null)
         {
             Speaker speaker = null;
 
@@ -496,7 +496,7 @@ namespace Exiled.API.Features.Toys
         /// <param name="position">The local position of the speaker.</param>
         /// <param name="settings">The optional audio and network settings. If null, default settings are used.</param>
         /// <returns><c>true</c> if the audio file was successfully found, loaded, and playback started; otherwise, <c>false</c>.</returns>
-        public static bool PlayWavFromPool(string path, Transform parent = null, Vector3? position = null, in PlaybackSettings? settings = null)
+        public static bool PlayWavFromPool(string path, Transform? parent = null, Vector3? position = null, in PlaybackSettings? settings = null)
         {
             if (string.IsNullOrEmpty(path))
             {
@@ -533,7 +533,7 @@ namespace Exiled.API.Features.Toys
         /// <param name="position">The local position of the speaker.</param>
         /// <param name="settings">The optional audio and network settings. If null, default settings are used.</param>
         /// <returns><c>true</c> if the source is valid and playback started; otherwise, <c>false</c>.</returns>
-        public static bool PlayFromPool(IPcmSource source, Transform parent = null, Vector3? position = null, in PlaybackSettings? settings = null)
+        public static bool PlayFromPool(IPcmSource source, Transform? parent = null, Vector3? position = null, in PlaybackSettings? settings = null)
         {
             if (source == null)
             {
@@ -856,7 +856,7 @@ namespace Exiled.API.Features.Toys
         /// <param name="duration">The time in seconds the fading process should take to complete.</param>
         /// <param name="linear">If <c>true</c>, uses linear interpolation; if <c>false</c>, uses natural easing (ease-in for fade-in, ease-out for fade-out).</param>
         /// <param name="onComplete">An optional action to invoke when the fade process is fully finished.</param>
-        public void FadeVolume(float startVolume, float targetVolume, float duration = 3, bool linear = false, Action onComplete = null)
+        public void FadeVolume(float startVolume, float targetVolume, float duration = 3, bool linear = false, Action? onComplete = null)
         {
             if (fadeRoutine.IsRunning)
                 fadeRoutine.IsRunning = false;
@@ -995,7 +995,7 @@ namespace Exiled.API.Features.Toys
         /// <param name="action">The action to invoke when the specified time is reached.</param>
         /// <param name="id">An optional unique string identifier for this event. If not provided, a random GUID will be assigned.</param>
         /// <returns>The unique string ID of the created time event, which can be used to remove it later via <see cref="RemoveScheduledEvent"/>.</returns>
-        public string AddScheduledEvent(double timeInSeconds, Action action, string id = null)
+        public string AddScheduledEvent(double timeInSeconds, Action action, string? id = null)
         {
             ScheduledEvent timeEvent = new(timeInSeconds, action, id);
 

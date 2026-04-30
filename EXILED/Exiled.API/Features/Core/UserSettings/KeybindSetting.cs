@@ -65,7 +65,7 @@ namespace Exiled.API.Features.Core.UserSettings
         /// <param name="collectionId"><inheritdoc cref="SettingBase.CollectionId"/></param>
         /// <param name="header"><inheritdoc cref="SettingBase.Header"/></param>
         /// <param name="onChanged"><inheritdoc cref="SettingBase.OnChanged"/></param>
-        public KeybindSetting(int id, string label, KeyCode suggested, bool preventInteractionOnGUI = false, bool allowSpectatorTrigger = false, string hintDescription = "", byte collectionId = byte.MaxValue, HeaderSetting header = null, Action<Player, SettingBase> onChanged = null)
+        public KeybindSetting(int id, string label, KeyCode suggested, bool preventInteractionOnGUI = false, bool allowSpectatorTrigger = false, string hintDescription = "", byte collectionId = byte.MaxValue, HeaderSetting? header = null, Action<Player, SettingBase>? onChanged = null)
             : base(new SSKeybindSetting(id, label, suggested, preventInteractionOnGUI, allowSpectatorTrigger, hintDescription, collectionId), header, onChanged)
         {
             Base = (SSKeybindSetting)base.Base;
